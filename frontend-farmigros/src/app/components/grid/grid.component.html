@@ -1,0 +1,7 @@
+<p>
+  <template *ngFor="let i of [].constructor(20), let x = index">
+    <template *ngFor="let i of [].constructor(20), let y = index">
+      <app-grid-item [positionX]="x" [positionY]="y"></app-grid-item>
+    </template>
+  </template>
+</p>
