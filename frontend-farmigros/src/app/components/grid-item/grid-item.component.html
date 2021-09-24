@@ -1,4 +1,3 @@
-<div>
-  position x {{positionX}}
-  positonn y {{positionY}}
+<div class="grid-item" [ngStyle]="{left: positionX * 64 + 'px', top: positionY * 64 + 'px'}">
+  {{positionX}}, {{positionY}}
 </div>
