@@ -12,7 +12,7 @@
     <p class="item-amount">{{selectedItem.amount}}</p>
     <div
       class="selected-item-view"
-      [ngStyle]="{backgroundImage:  selectedItem !== null ? 'url(../../../assets/items/'+ selectedItem.item.type +'-' + selectedItem.item.level +'.png)' : ''}">
+      [ngStyle]="{backgroundImage:  selectedItem !== null ? 'url(../../../assets/items/'+ selectedItem.item.type +'-' + 0 +'.png)' : ''}">
     </div>
     <ion-icon name="close-outline" size="large" class="cancel-selection-button" (click)="deleteSelectedItem()"></ion-icon>
   </div>
@@ -20,7 +20,7 @@
     <div class="item-grid">
       <div *ngFor="let itemStash of itemsAvailable"
            class="grid-item"
-           [ngStyle]="{backgroundImage:  'url(../../../assets/items/'+ itemStash.item.type +'-' + itemStash.item.level +'.png)'}"
+           [ngStyle]="{backgroundImage:  'url(../../../assets/items/'+ itemStash.item.type +'-' + 0 +'.png)'}"
            (click)="setSelectedItem(itemStash.item.id)">
         {{itemStash.amount}}
       </div>

@@ -3,6 +3,7 @@ import {ItemStash} from "../item/ItemStash";
 import {HttpClient} from "@angular/common/http";
 import {ObjectType} from "../../models/ObjectType";
 import {Item} from "../item/Item";
+import {ItemService} from "../../services/item.service";
 
 @Component({
   selector: 'app-slide-inventory',
@@ -16,7 +17,7 @@ export class SlideInventoryComponent implements OnInit {
   isOpen = false;
   itemsAvailable: ItemStash[] = [];
 
-  constructor(private http: HttpClient) {
+  constructor(private itemService: ItemService, ) {
   }
 
   ngOnInit() {
@@ -24,7 +25,7 @@ export class SlideInventoryComponent implements OnInit {
   }
 
   parseInventoryData() {
-    this.http.get('http://localhost:3000/inventory').subscribe((data) => {
+    this.itemService.getInventoryItems().subscribe((data) => {
       let itemArr: Item[] = [];
       let dataArr = data as number[];
       let id = 1;

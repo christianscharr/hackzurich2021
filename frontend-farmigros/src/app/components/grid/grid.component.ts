@@ -2,6 +2,8 @@ import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChi
 import {Gesture, GestureController, IonContent} from '@ionic/angular';
 import {getItemSizeByZoomLevel} from '../../helpers/helpers';
 import {ItemStash} from '../item/ItemStash';
+import {ItemService} from "../../services/item.service";
+import {ObjectType} from "../../models/ObjectType";
 
 @Component({
   selector: 'app-grid',
@@ -24,18 +26,18 @@ export class GridComponent implements AfterViewInit, OnInit {
   constructor(
     private el: ElementRef,
     private gestureCtrl: GestureController,
-    private ngChange: ChangeDetectorRef) {
-    for (let x = 0; x < this.maxX; x++) {
-      for (let y = 0; y < this.maxY; y++) {
-        this.gridItems.push({x, y});
-      }
-    }
+    private ngChange: ChangeDetectorRef,
+    private itemService: ItemService) {
 
-    this.gridItems = this.patchGridItem(4, 5, {plant: 'tree', level: 1});
-    this.gridItems = this.patchGridItem(5, 5, {plant: 'tree', level: 2});
-    this.gridItems = this.patchGridItem(4, 6, {plant: 'tree', level: 3});
-    this.gridItems = this.patchGridItem(5, 6, {plant: 'tree', level: 4});
-    this.gridItems = this.patchGridItem(4, 7, {plant: 'tree', level: 'dead'});
+    this.itemService.getGridItems().subscribe(remoteGridItems => {
+      for (let x = 0; x < this.maxX; x++) {
+        for (let y = 0; y < this.maxY; y++) {
+          this.gridItems.push(remoteGridItems.find(item => item.x === x && item.y === y) || {x, y});
+        }
+      }
+    })
+
+
   }
 
   ngOnInit() {
@@ -70,9 +72,13 @@ export class GridComponent implements AfterViewInit, OnInit {
         level: 1
       });
       this.selectedItem.amount--;
+
+      this.itemService.sow(x, y,  ObjectType[this.selectedItem.item.type.toUpperCase()])
+
       if (this.selectedItem.amount <= 0) {
         this.selectedItem = null;
       }
+
     }
 
     if (event === 'move' && this.movingItem) {
@@ -83,6 +89,7 @@ export class GridComponent implements AfterViewInit, OnInit {
         if (gridItem.x === x && gridItem.y === y) {
           gridItem.plant = this.movingItem.plant;
           gridItem.level = this.movingItem.level;
+          console.log('move')
         }
         if (gridItem.x === this.movingItem.x && gridItem.y === this.movingItem.y) {
           delete gridItem.plant;
