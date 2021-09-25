@@ -31,6 +31,10 @@ export class SlideInventoryComponent{
 
   toggleOpen() {
     this.isOpen = !this.isOpen;
-
+    for (let itemStash of this.itemsAvailable) {
+      if (itemStash.amount <= 0) {
+        this.itemsAvailable = this.itemsAvailable.filter((i) => i != itemStash);
+      }
+    }
   }
 }
