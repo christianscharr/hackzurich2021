@@ -6,7 +6,9 @@ import { Gesture, GestureController } from '@ionic/angular';
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.scss'],
 })
-export class GridComponent implements OnInit {
+export class GridComponent {
+
+  zoomLevel = 5;
 
   gridItems = [
     {x: 0, y: 0, plant: 'tree', level: 1},
@@ -139,35 +141,8 @@ export class GridComponent implements OnInit {
 
   }
 
-  ngOnInit() {
-    const gesture = this.gestureCtrl.create({
-      gestureName: 'test',
-      el: this.element.nativeElement,
-      onMove: (detail) => { this.onMove(detail); },
-    });
-
-    gesture.enable();
-  }
-
-  /*
-  ionViewDidLoad() {
-//create gesture obj w/ ref to DOM element
-this.gesture = new Gesture(this. el.nativeElement);
-
-//listen for the gesture
-this.gesture.listen();
-
-//turn on listening for pinch or rotate events
-this.gesture.on('pinch', e => this.pinchEvent(e));
-}
-   */
-
-  private pinchEvent(event) {
-    console.log(event);
-  }
-
-  onMove(detail) {
-    console.log('mounted', detail);
+  onMove(detail): void {
+    console.log('moved', detail);
   }
 
   onPinch(event) {
@@ -177,5 +152,10 @@ this.gesture.on('pinch', e => this.pinchEvent(e));
   onClick(event) {
     console.log(event);
   }
+
+  private pinchEvent(event) {
+    console.log(event);
+  }
+
 
 }

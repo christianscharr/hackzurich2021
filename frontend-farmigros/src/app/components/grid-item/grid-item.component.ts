@@ -10,13 +10,32 @@ export class GridItemComponent implements OnInit {
   @Input() positionY: number;
   @Input() plant: string;
   @Input() level: number | string;
+  @Input() zoomLevel: number | string;
 
+
+  sizes = {
+    1: 64,
+    2: 72,
+    3: 80,
+    4: 88,
+    5: 96,
+    6: 104,
+    7: 112,
+    8: 120,
+    9: 128,
+    10: 136,
+  };
 
 
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
+
+  ngOnChange(change) {
+    console.log(change)
+  }
 
   onClick(event) {
     console.log('test', event);
