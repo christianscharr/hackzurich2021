@@ -1,6 +1,5 @@
-import { Controller, Get, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post } from "@nestjs/common";
 import { AzureKeyCredential, FormRecognizerClient } from "@azure/ai-form-recognizer";
-import { FileInterceptor } from "@nestjs/platform-express";
 import { Credentials } from "../credentials";
 import { ProductCategory, ProductDto } from "../dtos/product-dto";
 import { AuzreReceiptMock } from "./azure-ReceiptResult-mock";
@@ -9,6 +8,8 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { Product, ProductDocument } from "../schemas/product.schema";
 import { CarbonFootprintType } from "../dtos/carbon-footprint-dto";
+import path from 'path';
+import fs from 'fs';
 
 @Controller('receipts')
 export class ReceiptsController {
@@ -25,9 +26,22 @@ export class ReceiptsController {
   }
 
   @Post('upload')
-  @UseInterceptors(FileInterceptor('file'))
-  async uploadFile(@UploadedFile() file: Express.Multer.File): Promise<ReceiptResponse> {
-    console.log(`[POST /receipts/upload] Received file ${file.originalname} (size: ${file.size}, type: ${file.mimetype})`);
+  async uploadFile(@Body() dataUrlfile: string): Promise<ReceiptResponse> {
+    const regex = /^data:.+\/(.+);base64,(.*)$/;
+    const matches = dataUrlfile.match(regex);
+    const fileExtension = matches[1];
+    const data = matches[2];
+    const buffer = Buffer.from(data, 'base64');
+
+    console.log(`[POST /receipts/upload] Received file with size: ${buffer.length} and type: ${fileExtension}`);
+    const uploadDir = path.join(__dirname, 'upload');
+
+    if (!fs.existsSync(uploadDir)){
+      fs.mkdirSync(uploadDir);
+    }
+
+    fs.writeFileSync(path.join(uploadDir, `data.${fileExtension}`), buffer);
+
     const receiptNames = await this.mockRecognizeReceipt();
     const products: ProductDto[] = [];
 
