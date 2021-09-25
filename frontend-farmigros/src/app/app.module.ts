@@ -14,10 +14,12 @@ import {TutorialComponent} from './components/tutorial/tutorial.component';
 import {HttpClientModule} from '@angular/common/http';
 import {Vibration} from '@ionic-native/vibration/ngx';
 import {SellButtonComponent} from './components/sell-button/sell-button.component';
+import {LeaderBoardComponent} from './components/leaderboard/leader-board.component';
+import {LeaderBoardButtonComponent} from './components/leader-board-button/leader-board-button.component';
 
 @NgModule({
   declarations: [AppComponent, GridComponent, GridItemComponent,
-    SlideInventoryComponent, ReceiptButtonComponent, TutorialButtonComponent, TutorialComponent, SellButtonComponent],
+    SlideInventoryComponent, ReceiptButtonComponent, TutorialButtonComponent, TutorialComponent, SellButtonComponent, LeaderBoardComponent, LeaderBoardButtonComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, HttpClientModule],
   providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy}, Vibration],
