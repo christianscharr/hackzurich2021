@@ -16,6 +16,7 @@
   border-radius: 20px;
   text-align: center;
   overflow: scroll;
+  box-shadow: 3px -3px 3px $colorBlackTransparent;
 
   &.is-open {
     transform: translateY(0);
@@ -26,7 +27,6 @@
     border-radius: 10px;
     animation-duration: 200ms;
     animation-name: slider-change;
-    box-shadow: 5px -5px 3px $colorBlackTransparent;
 
     .item-grid {
       display: flex;
