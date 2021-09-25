@@ -1,8 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {Camera, CameraResultType} from '@capacitor/camera';
+import {Component, Inject, OnInit} from '@angular/core';
+import {Camera, CameraResultType, CameraSource, Photo} from '@capacitor/camera';
 import {HttpClient} from '@angular/common/http';
-import {Router} from "@angular/router";
-
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-camera-page',
@@ -11,25 +10,47 @@ import {Router} from "@angular/router";
 })
 export class CameraPagePage implements OnInit {
 
-  constructor(private httpClient: HttpClient, private router: Router) {
+  constructor(@Inject(HttpClient) private httpClient: HttpClient,
+              @Inject(Router) private router: Router) {
   }
 
   async ngOnInit() {
     try {
-      await this.takePicture()
+      await this.takePicture();
     } finally {
       await this.router.navigateByUrl('');
     }
   }
 
   async takePicture() {
-    const image = await Camera.getPhoto({
-      quality: 90,
+    const cameraPhoto: Photo = await Camera.getPhoto({
+      quality: 100,
       allowEditing: true,
-      resultType: CameraResultType.DataUrl
+      resultType: CameraResultType.DataUrl,
+      correctOrientation: true,
+      saveToGallery: false,
+      source: CameraSource.Camera,
     });
-    await this.httpClient.post('http://localhost:3000/receipts/upload', image.dataUrl).toPromise()
+    if (!cameraPhoto) {
+      return;
+    }
+
+    const formData = new FormData();
+    const photoData = await fetch(cameraPhoto.dataUrl);
+    const photoBlob = await photoData.blob();
+    formData.append('file', photoBlob);
+
+    try {
+      const response = await fetch('http://127.0.0.1:3000/receipts/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
   };
-
-
 }

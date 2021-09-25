@@ -11,7 +11,6 @@ import { CarbonFootprintType } from "../dtos/carbon-footprint-dto";
 import * as path from "path";
 import * as fs from "fs";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { diskStorage } from "multer";
 
 @Controller('receipts')
 export class ReceiptsController {
