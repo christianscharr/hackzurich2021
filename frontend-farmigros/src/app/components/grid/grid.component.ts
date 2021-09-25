@@ -69,6 +69,7 @@ export class GridComponent implements AfterViewInit {
         level: 1
       });
       this.selectedItem.amount--;
+      this.selectedItem = null;
 
       this.itemService.sow(x, y,  ObjectType[this.selectedItem.item.type.toUpperCase()])
 
