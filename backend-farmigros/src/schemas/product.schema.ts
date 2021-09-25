@@ -3,6 +3,51 @@ import { Document, ObjectId } from "mongoose";
 
 export type ProductDocument = Product & Document;
 
+export class ProductImage {
+  source: String;
+  code: String;
+  description: String;
+  original: String;
+  small: String;
+  medium: String;
+  large: String;
+}
+
+export class ProductDescription {
+  text: String;
+  source: String;
+}
+
+export class MCheck {
+  carbon_footprint: MCheckCarbonFootprint;
+  animal_welfare: MCheckAnimalWelfare;
+  air_cargo_relevant: Boolean;
+  m_check_relevant: Boolean;
+  animal_welfare_relevant: Boolean;
+}
+
+export class MCheckCarbonFootprint {
+  image: ProductImage;
+  ground_and_sea_cargo: MCheckCarbonFootprintCargo;
+  air_cargo: MCheckCarbonFootprintCargo;
+}
+
+export class MCheckCarbonFootprintCargo {
+  kg_co2: Number;
+  kg_co2_range: String;
+  co2_in_car_km: Number;
+  rating: Number;
+  production_in_percent: Number;
+  packaging_in_percent: Number;
+  transport_in_percent: Number;
+}
+
+export class MCheckAnimalWelfare {
+  rating: Number;
+  label: String;
+  image: ProductImage
+}
+
 @Schema()
 export class Product {
   @Prop()
@@ -12,85 +57,28 @@ export class Product {
   name: String;
 
   @Prop()
-  product_type?: String;
+  product_type: String;
 
   @Prop()
-  image?: {
-    source?: String;
-    code?: String;
-    description?: String;
-    original?: String;
-    small?: String;
-    medium?: String;
-    large?: String;
-  };
+  image: ProductImage;
 
   @Prop()
-  slug?: String;
+  slug: String;
 
   @Prop()
-  receipt_text?: String;
+  receipt_text: String;
 
   @Prop()
-  description?: {
-    text?: String;
-    source?: String;
-  };
+  description: ProductDescription;
 
   @Prop()
-  short_description?: String;
+  short_description: String;
 
   @Prop()
-  gtins?: [String];
+  gtins: [String];
 
   @Prop()
-  m_check2?: {
-    carbon_footprint?: {
-      image?: {
-        source?: String;
-        code?: String;
-        description?: String;
-        original?: String;
-        small?: String;
-        medium?: String;
-        large?: String;
-      },
-      ground_and_sea_cargo?: {
-        kg_co2: Number;
-        kg_co2_range?: String;
-        co2_in_car_km?: Number;
-        rating: Number;
-        production_in_percent?: Number;
-        packaging_in_percent?: Number;
-        transport_in_percent?: Number;
-      },
-      air_cargo?: {
-        kg_co2: Number;
-        kg_co2_range?: String;
-        co2_in_car_km?: Number;
-        rating: Number;
-        production_in_percent?: Number;
-        packaging_in_percent?: Number;
-        transport_in_percent?: Number;
-      }
-    },
-    animal_welfare?: {
-      rating?: Number;
-      label?: String;
-      image?: {
-        source?: String;
-        code?: String;
-        description?: String;
-        original?: String;
-        small?: String;
-        medium?: String;
-        large?: String;
-      }
-    },
-    air_cargo_relevant?: Boolean;
-    m_check_relevant?: Boolean;
-    animal_welfare_relevant?: Boolean;
-  };
+  m_check2: MCheck;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

@@ -1,4 +1,4 @@
-import { Controller, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Controller, Get, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { AzureKeyCredential, FormRecognizerClient } from "@azure/ai-form-recognizer";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { Credentials } from "../credentials";
@@ -33,16 +33,22 @@ export class ReceiptsController {
     };
   }
 
+  @Get('mock')
+  async getMockReceipt(): Promise<ReceiptResponse> {
+    const receiptNames = await this.mockRecognizeReceipt();
+    const products = receiptNames.map(receiptName => this.mapReceiptNameToProdcut(receiptName));
+
+    return {
+      products
+    };
+  }
+
   private async mockRecognizeReceipt(): Promise<string[]> {
     const mockData = AuzreReceiptMock;
     const products = [];
 
     for (let receiptLine of mockData.analyzeResult.documentResults[0].fields.Items.valueArray) {
-      if (receiptLine.type !== 'object') {
-        continue;
-      }
-
-      if (!('Name' in receiptLine.valueObject)) {
+      if (receiptLine.type !== 'object' || !('Name' in receiptLine.valueObject)) {
         continue;
       }
 
