@@ -46,22 +46,6 @@ export class GridComponent implements AfterViewInit {
     requestAnimationFrame(async () => await this.content.scrollToPoint(center, center, 1000));
   }
 
-  onTouchStart($event) {
-    console.log($event);
-  }
-
-  onMove(detail): void {
-    console.log('moved', detail);
-  }
-
-  onPinch(event) {
-    console.log(event);
-  }
-
-  onClick(event) {
-    console.log(event);
-  }
-
   onGridClick({x, y, event}) {
     if (event === 'sow' && this.selectedItem) {
       this.gridItems = this.patchGridItem(x, y, {
@@ -78,8 +62,6 @@ export class GridComponent implements AfterViewInit {
       }
 
     } else if (event === 'move' && this.movingItem) {
-
-      console.log('move', this.movingItem, x, y);
 
       this.gridItems = this.gridItems.map(gridItem => {
         if (gridItem.x === x && gridItem.y === y) {
@@ -123,7 +105,6 @@ export class GridComponent implements AfterViewInit {
   onStartMoving(item) {
     this.movingItem = item;
     this.ngChange.detectChanges();
-    console.log(this.movingItem);
   }
 
   patchGridItem(x: number, y: number, newValues: any): any[] {
