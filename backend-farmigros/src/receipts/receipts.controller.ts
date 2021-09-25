@@ -55,6 +55,11 @@ export class ReceiptsController {
 
     for (let product of products) {
       const hasWon = await this.rollTheDice(product);
+
+      if (hasWon === null) {
+        continue;
+      }
+      
       product.hasWon = hasWon;
       winnings++;
     }
@@ -249,17 +254,23 @@ export class ReceiptsController {
     }
 
     const likelihood = 0.1 * scoreSum;
+    console.log(`Likelihood: ${likelihood}`);
     const winner = [];
 
     for (let i = 0; i <= 100*likelihood; i++) {
       winner.push(i);
     }
 
+    console.log(`Lots: ${winner.length}`);
     const randomNumber = Math.floor(Math.random() * 101) ;
+    console.log(`Winner Lot: ${randomNumber}`);
 
     if (winner.indexOf(randomNumber) === -1) {
+      console.log('LOOSE :(');
       return null;
     }
+
+    console.log('WIN :)');
 
     let objectType: ObjectType = null;
 
