@@ -6,8 +6,8 @@
     *ngIf="plant"
     class="plant"
     [ngStyle]="{backgroundImage:  'url(../../../assets/items/'+ plant +'-' + level +'.png)'}"
-    [ngClass]="{'plant--shaking': isMoving}"
-    (click)="onClick($event)"></div>
+    [ngClass]="{'plant--shaking': isMoving, 'plant--blinking': sellOperationOngoing && level >=5}"
+    (click)="onClick($event)">{{plant}} {{level}}</div>
   <div
     *ngIf="moveOperationOngoing || seadOperationOngoing"
     (click)="onClick($event)"

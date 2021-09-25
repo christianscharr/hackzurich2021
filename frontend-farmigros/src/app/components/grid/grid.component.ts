@@ -4,13 +4,14 @@ import {getItemSizeByZoomLevel} from '../../helpers/helpers';
 import {ItemStash} from '../item/ItemStash';
 import {ItemService} from "../../services/item.service";
 import {ObjectType} from "../../models/ObjectType";
+import {SellService} from '../../sell.service';
 
 @Component({
   selector: 'app-grid',
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.scss'],
 })
-export class GridComponent implements AfterViewInit, OnInit {
+export class GridComponent implements AfterViewInit {
   zoomLevel = 5;
   selectedItem: ItemStash = null;
   movingItem: any = null;
@@ -27,21 +28,17 @@ export class GridComponent implements AfterViewInit, OnInit {
     private el: ElementRef,
     private gestureCtrl: GestureController,
     private ngChange: ChangeDetectorRef,
-    private itemService: ItemService) {
+    private itemService: ItemService,
+    public sellService: SellService) {
 
     this.itemService.getGridItems().subscribe(remoteGridItems => {
       for (let x = 0; x < this.maxX; x++) {
         for (let y = 0; y < this.maxY; y++) {
-          this.gridItems.push(remoteGridItems.find(item => item.x === x && item.y === y) || {x, y});
+          const remote = remoteGridItems.find(item => item.x === x && item.y === y);
+          this.gridItems.push( remote || {x, y});
         }
       }
     })
-
-
-  }
-
-  ngOnInit() {
-
   }
 
   async ngAfterViewInit() {
@@ -79,9 +76,7 @@ export class GridComponent implements AfterViewInit, OnInit {
         this.selectedItem = null;
       }
 
-    }
-
-    if (event === 'move' && this.movingItem) {
+    } else if (event === 'move' && this.movingItem) {
 
       console.log('move', this.movingItem, x, y);
 
@@ -102,6 +97,18 @@ export class GridComponent implements AfterViewInit, OnInit {
       this.movingItem = null;
 
       this.ngChange.detectChanges();
+    } else if (event === 'sell'){
+      // TODO Fixed price
+      this.sellService.sell(x, y, 50)
+
+      this.gridItems = this.gridItems.map(gridItem => {
+        if (gridItem.x === x && gridItem.y === y) {
+          delete gridItem.plant;
+          delete gridItem.level;
+        }
+        return gridItem;
+
+      }) as [];
     }
   }
 

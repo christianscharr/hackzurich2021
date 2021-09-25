@@ -9,10 +9,12 @@
     (clicked)="onGridClick($event)"
     [moveOperationOngoing]="!!movingItem"
     [seadOperationOngoing]="!!selectedItem"
+    [sellOperationOngoing]="sellService.sellMode"
     [isMoving]="!!movingItem && item.x === movingItem.x  && item.y === movingItem.y"
     (startMoving)="onStartMoving($event)"
   ></app-grid-item>
 </ion-content>
 <app-slide-inventory [selectedItem]="selectedItem" (select)="onSelectItem($event)"></app-slide-inventory>
 <app-receipt-button class="camera-button"></app-receipt-button>
+<app-sell-button class="sell-button"></app-sell-button>
 <app-tutorial-button class="tutorial-button"></app-tutorial-button>

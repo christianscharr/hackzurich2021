@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {map} from "rxjs/operators";
+import {map, tap} from "rxjs/operators";
 import {RecievedItem} from "../components/item/RecievedItem";
 import {ObjectType} from "../models/ObjectType";
 
-@Injectab§le({
+@Injectable({
   providedIn: 'root',
 })
 export class ItemService {
@@ -18,7 +18,7 @@ export class ItemService {
   getGridItems() {
     return this.http.get('http://localhost:3000/grid-objects').pipe(
       map((dtos) => dtos as RecievedItem[]),
-      map((dtos: RecievedItem[]) => dtos.map(dto => ({x: dto.positionX, y: dto.positionY, plant: ObjectType[dto.objectType].toString().toLowerCase(), level: 1}))),
+      map((dtos: RecievedItem[]) => dtos.map(dto => ({x: dto.positionX, y: dto.positionY, plant: ObjectType[dto.objectType].toString().toLowerCase(), level: dto.addedAt}))),
     );
   }
 

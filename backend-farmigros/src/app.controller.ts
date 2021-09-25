@@ -34,7 +34,7 @@ export class AppController {
     }
 
     getStatus(timestamp: number): number {
-        return Math.min(Math.ceil((Date.now() - timestamp) / (1000*60*60*24)), 5);
+        return Math.min(Math.ceil((Date.now() - timestamp) / (1000 * 60 * 60 * 24)), 5);
     }
 
     @Get('/inventory')
@@ -49,20 +49,20 @@ export class AppController {
                 lastname: "Wicki",
                 gridObjects: [
                     {
-                        type: ObjectType.FISH,
+                        objectType: ObjectType.FISH,
                         positionX: 1,
                         positionY: 1,
                         addedAt: Date.now() - 3600
                     },
                     {
-                        type: ObjectType.WHEAT,
+                        objectType: ObjectType.MEAT,
                         positionX: 5,
                         positionY: 4,
                         addedAt: Date.now() - 3600 * 1000
                     }
                 ],
                 money: 200,
-                inventory: [ObjectType.COW, ObjectType.FISH, ObjectType.FISH, ObjectType.WHEAT]
+                inventory: [ObjectType.MEAT, ObjectType.FISH, ObjectType.FISH, ObjectType.TREE]
 
             }
         );
@@ -90,6 +90,5 @@ export class AppController {
 
         user.save()
     }
-
 
 }

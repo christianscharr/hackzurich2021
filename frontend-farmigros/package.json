@@ -15,6 +15,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-devkit/core": "^12.2.7",
     "@angular/common": "^12.1.5",
     "@angular/core": "^12.1.5",
     "@angular/forms": "~12.1.1",
@@ -34,7 +35,6 @@
     "@ionic/angular": "^5.5.2",
     "@ionic/angular-toolkit": "^4.0.0",
     "@ionic/pwa-elements": "^3.0.2",
-    "await": "^0.2.6",
     "cordova-plugin-vibration": "^3.1.1",
     "ionic-angular": "^3.9.10",
     "rxjs": "~6.6.0",

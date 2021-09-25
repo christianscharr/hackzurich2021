@@ -1,7 +1,7 @@
-import {Component, OnInit, Input, ViewChild, EventEmitter, Output, ElementRef} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {getItemSizeByZoomLevel} from '../../helpers/helpers';
 import {GestureController} from '@ionic/angular';
-import { Vibration } from '@ionic-native/vibration/ngx';
+import {Vibration} from '@ionic-native/vibration/ngx';
 
 @Component({
   selector: 'app-grid-item',
@@ -13,6 +13,7 @@ export class GridItemComponent implements OnInit {
   @Input() positionY: number;
   @Input() moveOperationOngoing: boolean;
   @Input() seadOperationOngoing: boolean;
+  @Input() sellOperationOngoing: boolean;
   @Input() plant: string;
   @Input() level: number | string;
   @Input() zoomLevel: number | string;
@@ -21,11 +22,6 @@ export class GridItemComponent implements OnInit {
   @Output() startMoving = new EventEmitter<any>();
 
   editCallback = null;
-
-  get size() {
-    return getItemSizeByZoomLevel(this.zoomLevel);
-  }
-
   sizes = {
     1: 64,
     2: 72,
@@ -39,13 +35,16 @@ export class GridItemComponent implements OnInit {
     10: 136,
   };
 
-
-
   constructor(
     private el: ElementRef,
     private gestureCtrl: GestureController,
-    private vibration: Vibration,
-  ) {}
+    private vibration: Vibration
+  ) {
+  }
+
+  get size() {
+    return getItemSizeByZoomLevel(this.zoomLevel);
+  }
 
   ngOnInit() {
     const gesture = this.gestureCtrl.create({
@@ -66,7 +65,7 @@ export class GridItemComponent implements OnInit {
   }
 
   onPress() {
-    if(this.plant) {
+    if (this.plant) {
       this.editCallback = setTimeout(() => {
         this.vibration.vibrate(200);
         this.startMoving.emit({x: this.positionX, y: this.positionY, plant: this.plant, level: this.level})
@@ -75,13 +74,16 @@ export class GridItemComponent implements OnInit {
   }
 
   onMove(move) {
-    if(move.deltaX > 10 || move.deltaY > 10) {
+    if (move.deltaX > 10 || move.deltaY > 10) {
       clearInterval(this.editCallback);
     }
   }
 
   onClick(event) {
-    if(this.plant) {
+    if (this.plant) {
+      if(this.sellOperationOngoing && this.level >=5){
+        this.clicked.emit({x: this.positionX, y: this.positionY, event: 'sell'});
+      }
       return;
     }
 
@@ -92,7 +94,7 @@ export class GridItemComponent implements OnInit {
 
 
   private longPressActionEnd(event) {
-    if((event.currentTime - event.startTime) < 200) {
+    if ((event.currentTime - event.startTime) < 200) {
       clearInterval(this.editCallback);
     }
   }
