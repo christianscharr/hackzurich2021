@@ -18,12 +18,14 @@ export class CameraPagePage implements OnInit {
   }
 
   async takePicture() {
+    await Camera.requestPermissions();
+    console.log(await Camera.checkPermissions());
+
     const image = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
       resultType: CameraResultType.DataUrl,
     });
-
     // image.webPath will contain a path that can be set as an image src.
     // You can access the original file using image.path, which can be
     // passed to the Filesystem API to read the raw data of the image,
