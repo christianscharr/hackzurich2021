@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import {Inventory} from './inventory.schema';
-import {GridObject} from './object.schema';
+import {GridObject, ObjectType} from './object.schema';
 
 export type UserDocument = User & Document;
 
@@ -9,7 +8,7 @@ export type UserDocument = User & Document;
 @Schema()
 export class User {
 
-    constructor(firstname?: string, lastname?: string, gridObjects?: GridObject[], inventory?: Inventory) {
+    constructor(firstname?: string, lastname?: string, gridObjects?: GridObject[], inventory?: ObjectType[]) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.gridObjects = gridObjects;
@@ -23,8 +22,10 @@ export class User {
 
     @Prop()
     gridObjects: GridObject[];
+
     @Prop()
-    inventory: Inventory
+    inventory: ObjectType[];
+
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

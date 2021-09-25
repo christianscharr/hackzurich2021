@@ -10,7 +10,6 @@ export class GridObject {
     }
 
     @Prop()
-        // x and y
     positionX: number;
 
     @Prop()

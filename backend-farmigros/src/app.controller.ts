@@ -1,12 +1,10 @@
-import {Controller, Get, GoneException, HttpStatus, Post, Put} from '@nestjs/common';
+import {Body, Controller, Get, GoneException, Post, Put} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {Model} from 'mongoose';
 import {AppService} from './app.service';
 
 import {User, UserDocument} from "./schemas/user.schema";
-import {Inventory} from './schemas/inventory.schema';
 import {GridObject, ObjectType} from './schemas/object.schema';
-import {response} from "express";
 
 @Controller()
 export class AppController {
@@ -22,7 +20,7 @@ export class AppController {
     }
 
     @Get('/inventory')
-    async getInventory(): Promise<Inventory> {
+    async getInventory(): Promise<ObjectType[]> {
         return (await this.userModel.findOne().exec()).inventory;
     }
 
@@ -34,34 +32,33 @@ export class AppController {
                 gridObjects: [
                     {
                         type: ObjectType.FISH,
-                        position: [0, 0],
+                        positionX: 1,
+                        positionY: 1,
                         addedAt: Date.now() - 3600
                     },
                     {
                         type: ObjectType.WHEAT,
-                        position: [5, 0],
+                        positionX: 5,
+                        positionY: 4,
                         addedAt: Date.now() - 3600 * 1000
                     }
                 ],
-                inventory: {
-                    materials: [ObjectType.COW, ObjectType.FISH, ObjectType.FISH, ObjectType.WHEAT]
-                }
+                inventory: [ObjectType.COW, ObjectType.FISH, ObjectType.FISH, ObjectType.WHEAT]
+
             }
         );
         return createdUser.save();
     }
 
     @Put('/put')
-    async plant(positionX: number, positionY: number, objectType: ObjectType) {
+    async plant(@Body() body: { positionX: number, positionY: number, objectType: ObjectType }) {
         const user = (await this.userModel.findOne().exec());
-        const userInventory = user.inventory;
-
-        if (!userInventory.materials.includes(objectType)) {
-            console.log(objectType);
-            console.log(userInventory.materials);
+        if (!user.inventory.includes(body.objectType)) {
             throw new GoneException();
         }
-        userInventory.materials.splice(userInventory.materials.indexOf(objectType), 1);
-        user.gridObjects.push(new GridObject(positionX, positionY, Date.now(), objectType));
+        const index = user.inventory.indexOf(body.objectType)
+        user.inventory.splice(index, 1);
+        user.gridObjects.push(new GridObject(body.positionX, body.positionY, Date.now(), body.objectType));
+        await user.save();
     }
 }
