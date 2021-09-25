@@ -28,9 +28,30 @@
     animation-name: slider-change;
     box-shadow: 5px -5px 3px $colorBlackTransparent;
 
-    ion-grid {
-      display: inherit;
+    .item-grid {
+      display: flex;
+      flex-wrap: wrap;
     }
+  }
+
+  &.is-item-preview {
+    transform: translateY(calc(60vh - 35vw));
+    width: 25vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -12.5vw;
+    margin-right: -12.5vw;
+  }
+
+  .selected-item-view {
+    height: 25vw;
+    width: 25vw;
+    background-color: $colorBlackTransparent;
+    background-size: cover;
+  }
+
+  .cancel-selection-button {
+    color: white;
   }
 
   @keyframes slider-change {
@@ -60,20 +81,20 @@
   margin: auto;
 }
 
-ion-grid {
+.item-grid {
   display: none;
   flex-grow: 0;
   padding: 0;
   border-radius: 4px;
+  width: 100vw;
 }
 
-ion-row, ion-col {
-  height: 64px;
-}
-
-ion-col {
+.grid-item {
+  height: 25vw;
+  width: 25vw;
   border: 2px dashed $colorGrayTransparent;
   border-collapse: collapse;
   background-color: $colorBlackTransparent;
+  background-size: cover;
 }
 

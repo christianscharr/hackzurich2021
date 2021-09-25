@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {Item} from "../item/Item";
 
 @Component({
   selector: 'app-slide-inventory',
@@ -7,4 +8,21 @@ import { Component } from '@angular/core';
 })
 export class SlideInventoryComponent {
   isOpen: boolean = false;
+  selectedItem: Item = null;
+  itemsAvailable: Item[] = [
+    {id: 1, type: 'tree', level: 1},
+    {id: 2, type: 'tree', level: 2},
+    {id: 3, type: 'tree', level: 3},
+    {id: 4, type: 'tree', level: 4}
+  ];
+
+  setSelectedItem(id: number): void {
+    this.selectedItem = this.itemsAvailable.find((item) => item.id === id);
+    console.log(this.selectedItem)
+    this.toggleOpen()
+  }
+
+  toggleOpen() {
+    this.isOpen = !this.isOpen;
+  }
 }
