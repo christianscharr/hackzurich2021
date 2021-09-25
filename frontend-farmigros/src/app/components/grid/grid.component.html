@@ -1,4 +1,4 @@
-<ion-content [scrollX]="true" [scrollY]="true" class="grid" (pinch)="onPinch($event)" (touchstart)="onTouchStart()">
+<ion-content [scrollX]="true" [scrollY]="true" class="grid">
   <input class="zoom-slider" type="range" min="1" max="10" [(ngModel)]="zoomLevel"/>
   <app-grid-item
     *ngFor="let item of gridItems, let x = index"
