@@ -1,5 +1,5 @@
 import {Prop, Schema} from '@nestjs/mongoose';
-import {Field} from './field.model';
+import {Field} from './field.schema';
 
 @Schema()
 export class User {

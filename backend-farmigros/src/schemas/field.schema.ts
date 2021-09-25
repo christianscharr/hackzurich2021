@@ -10,7 +10,8 @@ export class Field {
     position: [number, number];
 
     @Prop()
-    cumulusCardNr: string;
+    // Array of timestamps, Length of Array is amount of max items
+    addedAt: Date[];
 
 }
 
