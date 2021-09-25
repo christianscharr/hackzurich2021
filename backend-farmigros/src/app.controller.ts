@@ -1,11 +1,10 @@
-import {Controller, Get, Post} from '@nestjs/common';
+import {Body, Controller, Get, GoneException, Post, Put} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {Model} from 'mongoose';
 import {AppService} from './app.service';
 
 import {User, UserDocument} from "./schemas/user.schema";
-import {Inventory} from './schemas/inventory.schema';
-import {Field, FieldType} from './schemas/field.schema';
+import {GridObject, ObjectType} from './schemas/object.schema';
 
 @Controller()
 export class AppController {
@@ -15,13 +14,13 @@ export class AppController {
     ) {
     }
 
-    @Get('/fields')
-    async getFields(): Promise<Field[]> {
-        return (await this.userModel.findOne().exec()).fields;
+    @Get('/grid-objects')
+    async getFields(): Promise<GridObject[]> {
+        return (await this.userModel.findOne().exec()).gridObjects;
     }
 
     @Get('/inventory')
-    async getInventory(): Promise<Inventory> {
+    async getInventory(): Promise<ObjectType[]> {
         return (await this.userModel.findOne().exec()).inventory;
     }
 
@@ -30,16 +29,36 @@ export class AppController {
         const createdUser = new this.userModel({
                 firstname: "Moritz",
                 lastname: "Wicki",
-                fields: [{
-                    fieldType: FieldType.POND,
-                    position: [0, 0],
-                    addedAt: [Date.now(), Date.now() - 3600]
-                }],
-                inventory: {
-                    materials: [FieldType.TREE_FIELD, FieldType.TREE_FIELD, FieldType.POND]
-                }
+                gridObjects: [
+                    {
+                        type: ObjectType.FISH,
+                        positionX: 1,
+                        positionY: 1,
+                        addedAt: Date.now() - 3600
+                    },
+                    {
+                        type: ObjectType.WHEAT,
+                        positionX: 5,
+                        positionY: 4,
+                        addedAt: Date.now() - 3600 * 1000
+                    }
+                ],
+                inventory: [ObjectType.COW, ObjectType.FISH, ObjectType.FISH, ObjectType.WHEAT]
+
             }
         );
         return createdUser.save();
+    }
+
+    @Put('/put')
+    async plant(@Body() body: { positionX: number, positionY: number, objectType: ObjectType }) {
+        const user = (await this.userModel.findOne().exec());
+        if (!user.inventory.includes(body.objectType)) {
+            throw new GoneException();
+        }
+        const index = user.inventory.indexOf(body.objectType)
+        user.inventory.splice(index, 1);
+        user.gridObjects.push(new GridObject(body.positionX, body.positionY, Date.now(), body.objectType));
+        await user.save();
     }
 }
