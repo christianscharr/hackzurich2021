@@ -23,9 +23,7 @@ export class CameraPagePage implements OnInit {
       allowEditing: true,
       resultType: CameraResultType.DataUrl
     });
-
-    const answer = await this.httpClient.post('http://localhost:3000/receipts/upload', image.dataUrl).toPromise()
-    console.log(answer)
+    await this.httpClient.post('http://localhost:3000/receipts/upload', image.dataUrl).toPromise()
   };
 
 
