@@ -218,8 +218,6 @@ export class GridComponent implements AfterViewInit, OnInit {
   }
 
   onGridClick({x, y, event}) {
-    console.log(this.selectedItem)
-
     if(event === 'sow' && this.selectedItem) {
 
       this.gridItems = this.gridItems.map(gridItem => {
