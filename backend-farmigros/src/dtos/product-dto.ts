@@ -7,6 +7,7 @@ export enum MCheckType {
 }
 
 export enum ProductCategory {
+  UNKNOWN = 'UNKNOWN',
   BAKERY = 'BAKERY',
   CHIPS = 'CHIPS',
   CEREALS = 'CEREALS',

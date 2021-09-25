@@ -48,6 +48,16 @@ export class MCheckAnimalWelfare {
   image: ProductImage
 }
 
+export class MProductCategory {
+  code: string;
+  name: string;
+  slug: string;
+  visible: boolean;
+  title: string;
+  parent_cpde: string;
+  level: number;
+}
+
 @Schema()
 export class Product {
   @Prop()
@@ -58,6 +68,9 @@ export class Product {
 
   @Prop()
   product_type: string;
+
+  @Prop()
+  categories: [MProductCategory];
 
   @Prop()
   image: ProductImage;

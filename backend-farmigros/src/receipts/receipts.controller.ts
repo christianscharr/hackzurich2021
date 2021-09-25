@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Get, Post } from "@nestjs/common";
 import { AzureKeyCredential, FormRecognizerClient } from "@azure/ai-form-recognizer";
 import { Credentials } from "../credentials";
 import { ProductCategory, ProductDto } from "../dtos/product-dto";
@@ -6,10 +6,10 @@ import { AuzreReceiptMock } from "./azure-ReceiptResult-mock";
 import { ReceiptResponse } from "../dtos/receipt-response";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { Product, ProductDocument } from "../schemas/product.schema";
+import { MProductCategory, Product, ProductDocument } from "../schemas/product.schema";
 import { CarbonFootprintType } from "../dtos/carbon-footprint-dto";
-import path from 'path';
-import fs from 'fs';
+import path from "path";
+import fs from "fs";
 
 @Controller('receipts')
 export class ReceiptsController {
@@ -115,8 +115,16 @@ export class ReceiptsController {
       name: product.name,
       receipt_test: product.receipt_text,
       id: product.id,
-      category: ProductCategory.FRUITS,
+      category: ProductCategory.UNKNOWN,
     };
+
+    if (product.description) {
+      productDto.description = product.description.text;
+    }
+
+    if (product.categories) {
+      productDto.category = this.determineCategory(product.categories);
+    }
 
     if (product.m_check2 && product.m_check2.carbon_footprint
       && (product.m_check2.carbon_footprint.air_cargo || product.m_check2.carbon_footprint.ground_and_sea_cargo)) {
@@ -151,5 +159,26 @@ export class ReceiptsController {
     }
 
     return productDto;
+  }
+
+  private determineCategory(categories: MProductCategory[]): ProductCategory {
+    for (let mCategoriy of categories) {
+      switch (mCategoriy.name) {
+        case "Früchte":
+          return ProductCategory.FRUITS;
+        case "Gemüse":
+          return ProductCategory.VEGETABLES;
+        case "Fisch & Meeresfrüchte":
+          return ProductCategory.FISH;
+        case "Fleisch":
+          return ProductCategory.MEAT;
+        case "Brote":
+          return ProductCategory.BAKERY;
+        case "Müesli & Cerealien":
+          return ProductCategory.CEREALS;
+      }
+    }
+
+    return ProductCategory.UNKNOWN;
   }
 }
