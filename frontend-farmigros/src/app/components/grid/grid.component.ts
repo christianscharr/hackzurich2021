@@ -82,10 +82,13 @@ export class GridComponent implements AfterViewInit {
 
       this.gridItems = this.gridItems.map(gridItem => {
         if (gridItem.x === x && gridItem.y === y) {
+          this.itemService.move(this.movingItem.x, this.movingItem.y, gridItem.x, gridItem.y);
+
           gridItem.plant = this.movingItem.plant;
           gridItem.level = this.movingItem.level;
-          console.log('move')
+
         }
+
         if (gridItem.x === this.movingItem.x && gridItem.y === this.movingItem.y) {
           delete gridItem.plant;
           delete gridItem.level;

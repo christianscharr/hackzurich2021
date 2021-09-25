@@ -25,4 +25,10 @@ export class ItemService {
   getInventoryItems() {
     return this.http.get('http://localhost:3000/inventory');
   }
+
+  move(oldX: number, oldY: number, newX: number, newY:number) {
+    console.log(oldX, oldY, newX, newY)
+    this.http.put('http://localhost:3000/move-grid-object', {oldX: oldX, oldY: oldY, newX: newX, newY: newY}).subscribe();
+
+  }
 }
