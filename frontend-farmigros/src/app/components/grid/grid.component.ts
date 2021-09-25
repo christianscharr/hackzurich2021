@@ -1,8 +1,5 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {Gesture, GestureController, IonContent} from '@ionic/angular';
-
-import * as Hammer from 'hammerjs';
-import {element} from 'protractor';
 import {getItemSizeByZoomLevel} from '../../helpers/helpers';
 import {Item} from '../item/Item';
 

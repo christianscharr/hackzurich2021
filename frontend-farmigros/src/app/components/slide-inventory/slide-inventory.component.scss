@@ -11,7 +11,7 @@
   height: 60vh;
   background-color: $colorOrange;
   justify-content: space-around;
-  transform: translateY(55vh);
+  transform: translateY(52vh);
   transition: 400ms;
   border-radius: 20px;
   text-align: center;
@@ -31,11 +31,17 @@
     .item-grid {
       display: flex;
       flex-wrap: wrap;
+
+      .category-label {
+        width: 100vh;
+        color: white;
+        font-size: 20px;
+      }
     }
   }
 
   &.is-item-preview {
-    transform: translateY(calc(60vh - 35vw));
+    transform: translateY(calc(58vh - 35vw));
     width: 25vw;
     left: 50%;
     right: 50%;
@@ -56,7 +62,7 @@
 
   @keyframes slider-change {
     from {
-      transform: translateY(55vh);
+      transform: translateY(52vh);
     }
 
     50% {
