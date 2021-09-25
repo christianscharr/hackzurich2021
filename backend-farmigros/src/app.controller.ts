@@ -91,4 +91,9 @@ export class AppController {
         user.save()
     }
 
+    @Get('/leaderboard')
+    async getLeaderboard(){
+        return (await this.userModel.findOne().exec()).money;
+    }
+
 }
