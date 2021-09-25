@@ -3,13 +3,22 @@
   position: relative;
   height: 100vh;
   width: 100vw;
+  background: #9d9fa6;
 }
 
 
 .zoom-slider {
   position: fixed;
   z-index: 10;
-  top: 80px;
-  right: 0;
+  top: 140px;
+  right: -32px;
   transform: rotate(-90deg);
+}
+
+.camera-button {
+  position: fixed;
+  z-index: 10;
+  top: 20px;
+  right: 5px;
+
 }
