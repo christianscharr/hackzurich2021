@@ -1,5 +1,6 @@
-import {Component, OnInit, Input, ViewChild, EventEmitter, Output} from '@angular/core';
+import {Component, OnInit, Input, ViewChild, EventEmitter, Output, ElementRef} from '@angular/core';
 import {getItemSizeByZoomLevel} from '../../helpers/helpers';
+import {GestureController} from '@ionic/angular';
 
 @Component({
   selector: 'app-grid-item',
@@ -9,10 +10,15 @@ import {getItemSizeByZoomLevel} from '../../helpers/helpers';
 export class GridItemComponent implements OnInit {
   @Input() positionX: number;
   @Input() positionY: number;
+  @Input() moveOperationOngoing: boolean;
   @Input() plant: string;
   @Input() level: number | string;
   @Input() zoomLevel: number | string;
+  @Input() isMoving: boolean;
   @Output() clicked = new EventEmitter<any>();
+  @Output() startMoving = new EventEmitter<any>();
+
+  editCallback = null;
 
   get size() {
     return getItemSizeByZoomLevel(this.zoomLevel);
@@ -33,17 +39,52 @@ export class GridItemComponent implements OnInit {
 
 
 
-  constructor() { }
+  constructor(
+    private el: ElementRef,
+    private gestureCtrl: GestureController,
+  ) {}
 
   ngOnInit() {
+    const gesture = this.gestureCtrl.create({
+      el: this.el.nativeElement,
+      threshold: 0,
+      gestureName: 'long-press',
+      onMove: ev => {
+        this.onMove(ev);
+      },
+      onStart: ev => {
+        this.onPress();
+      },
+      onEnd: ev => {
+        this.longPressActionEnd(ev);
+      }
+    });
+    gesture.enable(true);
   }
 
-  ngOnChange(change) {
-    console.log(change);
+  onPress() {
+    console.log('press');
+    this.editCallback = setTimeout(() => this.startMoving.emit({x: this.positionX, y: this.positionY, plant: this.plant, level: this.level}), 1000);
+  }
+
+  onMove(move) {
+    if(move.deltaX > 10 || move.deltaY > 10) {
+      clearInterval(this.editCallback);
+    }
   }
 
   onClick(event) {
-    this.clicked.emit({x: this.positionX, y: this.positionY, event: 'sow'});
+    if(this.plant) {
+      return;
+    }
+
+    this.clicked.emit({x: this.positionX, y: this.positionY, event: this.moveOperationOngoing ? 'move' : 'sow'});
   }
 
+
+  private longPressActionEnd(event) {
+    if((event.currentTime - event.startTime) < 200) {
+      clearInterval(this.editCallback);
+    }
+  }
 }

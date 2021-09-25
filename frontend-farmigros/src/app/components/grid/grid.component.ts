@@ -1,8 +1,9 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Gesture, GestureController, IonContent} from '@ionic/angular';
 import {getItemSizeByZoomLevel} from '../../helpers/helpers';
 import {Item} from '../item/Item';
 import {ItemStash} from "../item/ItemStash";
+import {ChangeDetection} from '@angular/cli/lib/config/workspace-schema';
 
 @Component({
   selector: 'app-grid',
@@ -13,6 +14,7 @@ export class GridComponent implements AfterViewInit, OnInit {
 
   zoomLevel = 5;
   selectedItem: ItemStash = null;
+  movingItem: any = null;
   action: any; //not stacking actions
 
 
@@ -172,31 +174,18 @@ export class GridComponent implements AfterViewInit, OnInit {
   constructor(
     private el: ElementRef,
     private gestureCtrl: GestureController,
-  ) {}
+    private ngChange: ChangeDetectorRef,
+) {}
 
   ngOnInit() {
-    const gesture = this.gestureCtrl.create({
-      el: this.el.nativeElement,
-      threshold: 0,
-      gestureName: 'long-press',
-      onStart: ev => {
-        this.longPressActive = true;
-        this.longPressAction();
-      },
-      onEnd: ev => {
-        this.longPressActive = false;
-      }
-    });
-    gesture.enable(true);
+
   }
 
 
 
   async ngAfterViewInit() {
-    const center = 12 * getItemSizeByZoomLevel(this.zoomLevel) * 0.5;
+    const center = 6 * getItemSizeByZoomLevel(this.zoomLevel) * 0.5;
     requestAnimationFrame(async () =>   await this.content.scrollToPoint(center, center, 1000));
-
-
   }
 
 
@@ -218,8 +207,6 @@ export class GridComponent implements AfterViewInit, OnInit {
   }
 
   onGridClick({x, y, event}) {
-    console.log(this.selectedItem)
-
     if(event === 'sow' && this.selectedItem) {
 
       this.gridItems = this.gridItems.map(gridItem => {
@@ -231,24 +218,35 @@ export class GridComponent implements AfterViewInit, OnInit {
 
       }) as [];
     }
+
+    if(event === 'move' && this.movingItem) {
+
+      console.log('move', this.movingItem, x, y);
+
+      this.gridItems = this.gridItems.map(gridItem => {
+        if(gridItem.x === x && gridItem.y === y) {
+          gridItem.plant = this.movingItem.plant;
+          gridItem.level = this.movingItem.level;
+        }
+        if(gridItem.x === this.movingItem.x && gridItem.y === this.movingItem.y) {
+          delete gridItem.plant;
+          delete gridItem.level;
+        }
+        return gridItem;
+
+      }) as [];
+
+      this.movingItem = null;
+    }
   }
 
   onSelectItem(item) {
     this.selectedItem = item;
   }
 
-
-  private longPressAction() {
-    /*if (this.action) {
-      clearInterval(this.action);
-    }
-    this.action = setTimeout(() => {
-      this.zone.run(() => {
-        if (this.longPressActive === true) {
-          this.longPressActive = false;
-          this.press.emit();
-        }
-      });
-    }, this.delay);*/
+  onStartMoving(item) {
+    this.movingItem = item;
+    this.ngChange.detectChanges();
+    console.log(this.movingItem);
   }
 }
