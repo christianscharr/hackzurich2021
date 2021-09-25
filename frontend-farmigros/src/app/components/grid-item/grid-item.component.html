@@ -1,13 +1,23 @@
 <div
   class="grid-item"
   [ngStyle]="{left: positionX * sizes[zoomLevel] + 'px', top: positionY * sizes[zoomLevel] + 'px', height: sizes[zoomLevel] + 'px',  width: sizes[zoomLevel] + 'px'}"
-  >
+>
   <div
+    style="display: flex; align-items: flex-end; width: 100%"
     *ngIf="plant"
     class="plant"
     [ngStyle]="{backgroundImage:  'url(../../../assets/items/'+ plant +'-' + level +'.png)'}"
     [ngClass]="{'plant--shaking': isMoving, 'plant--blinking': sellOperationOngoing && level >=5}"
-    (click)="onClick($event)">{{plant}} {{level}}</div>
+    (click)="onClick($event)">
+    <!-- For the outline -->
+    <div style="border: 1px solid black; height: 7%; width: 100%">
+      <!-- The progressbar -->
+      <div style="height: 100%;"
+           [style.background-color]="level <=2 ? 'red' : (level <= 4 ? 'yellow' : 'green')"
+           [style.width.%]="level*20">
+      </div>
+    </div>
+  </div>
   <div
     *ngIf="moveOperationOngoing || seadOperationOngoing"
     (click)="onClick($event)"
