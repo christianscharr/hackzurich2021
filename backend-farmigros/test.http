@@ -22,3 +22,13 @@ Content-Type: application/json
   "newY": 0
 }
 
+###
+
+PUT localhost:3000/sell
+Content-Type: application/json
+
+{
+  "positionX": 5,
+  "positionY": 4,
+  "value": 2000000
+}

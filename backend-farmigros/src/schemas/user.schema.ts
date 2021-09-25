@@ -19,6 +19,8 @@ export class User {
     firstname: string;
     @Prop()
     lastname: string;
+    @Prop()
+    money: number;
 
     @Prop()
     gridObjects: GridObject[];

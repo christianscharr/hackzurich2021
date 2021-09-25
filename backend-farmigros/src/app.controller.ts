@@ -15,13 +15,12 @@ export class AppController {
     }
 
     @Put('/move-grid-object')
-    async moveGridObject(@Body() body: {oldX: number, oldY: number, newX: number, newY: number}){
+    async moveGridObject(@Body() body: { oldX: number, oldY: number, newX: number, newY: number }) {
         const user = await this.userModel.findOne().exec();
         let index = user.gridObjects.findIndex((gridObject) => gridObject.positionX === body.oldX && gridObject.positionY === body.oldY)
         let newGridObject = new GridObject(body.newX, body.newY, user.gridObjects[index].addedAt, user.gridObjects[index].objectType)
         user.gridObjects.splice(index, 1)
         user.gridObjects.push(newGridObject)
-        console.log(user)
         await user.save();
     }
 
@@ -54,6 +53,7 @@ export class AppController {
                         addedAt: Date.now() - 3600 * 1000
                     }
                 ],
+                money: 200,
                 inventory: [ObjectType.COW, ObjectType.FISH, ObjectType.FISH, ObjectType.WHEAT]
 
             }
@@ -72,4 +72,16 @@ export class AppController {
         user.gridObjects.push(new GridObject(body.positionX, body.positionY, Date.now(), body.objectType));
         await user.save();
     }
+
+    @Put('/sell')
+    async sell(@Body() body: { positionX: number, positionY: number, value: number }) {
+        const user = (await this.userModel.findOne().exec());
+        const gridObjectIndex = user.gridObjects.findIndex((gridObject) => gridObject.positionX === body.positionX && gridObject.positionY === body.positionY)
+        user.gridObjects.splice(gridObjectIndex, 1);
+        user.money += body.value;
+
+        user.save()
+    }
+
+
 }
