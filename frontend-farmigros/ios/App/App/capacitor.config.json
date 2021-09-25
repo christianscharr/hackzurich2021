@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "Farmigros",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

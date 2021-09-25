@@ -1,0 +1,79 @@
+@import '../../../global';
+
+.slide-menu {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  right: 50%;
+  margin-left: -15vw;
+  margin-right: -15vw;
+  width: 30vw;
+  height: 60vh;
+  background-color: $colorOrange;
+  justify-content: space-around;
+  transform: translateY(55vh);
+  transition: 400ms;
+  border-radius: 20px;
+  text-align: center;
+  overflow: scroll;
+
+  &.is-open {
+    transform: translateY(0);
+    width: 100vw;
+    left: 0;
+    right: auto;
+    margin: 0;
+    border-radius: 10px;
+    animation-duration: 200ms;
+    animation-name: slider-change;
+    box-shadow: 5px -5px 3px $colorBlackTransparent;
+
+    ion-grid {
+      display: inherit;
+    }
+  }
+
+  @keyframes slider-change {
+    from {
+      transform: translateY(55vh);
+    }
+
+    50% {
+      left: 0;
+      right: auto;
+      margin: 0;
+      width: 100vw;
+      transform: translateY(55vh);
+      transition: 200ms;
+    }
+
+    to {
+      width: 100vw;
+      transform: translateY(0);
+      transition: 200ms;
+    }
+  }
+}
+
+.open-button {
+  color: white;
+  margin: auto;
+}
+
+ion-grid {
+  display: none;
+  flex-grow: 0;
+  padding: 0;
+  border-radius: 4px;
+}
+
+ion-row, ion-col {
+  height: 64px;
+}
+
+ion-col {
+  border: 2px dashed $colorGrayTransparent;
+  border-collapse: collapse;
+  background-color: $colorBlackTransparent;
+}
+

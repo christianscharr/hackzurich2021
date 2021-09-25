@@ -1,3 +1,11 @@
-<div class="grid">
-  <app-grid-item *ngFor="let item of gridItems, let x = index" [positionX]="item.x" [positionY]="item.y"></app-grid-item>
+<div class="grid" #grid >
+  <input class="zoom-slider" type="range" min="1" max="10" [(ngModel)]="zoomLevel"/>
+  <app-grid-item
+    *ngFor="let item of gridItems, let x = index"
+    [positionX]="item.x" [positionY]="item.y"
+    [plant]="item.plant"
+    [level]="item.level"
+    [zoomLevel]="zoomLevel"
+  ></app-grid-item>
 </div>
+<app-slide-inventory></app-slide-inventory>
