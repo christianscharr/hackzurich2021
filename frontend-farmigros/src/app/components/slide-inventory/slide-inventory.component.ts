@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Item} from "../item/Item";
 
 @Component({
@@ -7,19 +7,28 @@ import {Item} from "../item/Item";
   styleUrls: ['./slide-inventory.component.scss'],
 })
 export class SlideInventoryComponent {
+  @Input() selectedItem;
+  @Output() select = new EventEmitter<Item | null>();
+
+
   isOpen: boolean = false;
-  selectedItem: Item = null;
   itemsAvailable: Item[] = [
     {id: 1, type: 'tree', level: 1},
   ];
 
   setSelectedItem(id: number): void {
-    this.selectedItem = this.itemsAvailable.find((item) => item.id === id);
-    console.log(this.selectedItem)
-    this.toggleOpen()
+    this.select.emit(this.itemsAvailable.find((item) => item.id === id));
+    this.toggleOpen();
+  }
+
+  deleteSelectedItem() {
+    this.select.emit(null);
   }
 
   toggleOpen() {
     this.isOpen = !this.isOpen;
+    if(!this.isOpen) {
+      // this.select.emit(null);
+    }
   }
 }

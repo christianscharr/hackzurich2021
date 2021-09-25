@@ -9,7 +9,7 @@
       class="selected-item-view"
       [ngStyle]="{backgroundImage:  selectedItem !== null ? 'url(../../../assets/items/'+ selectedItem.type +'-' + selectedItem.level +'.png)' : ''}">
     </div>
-    <ion-icon name="close-outline" size="large" class="cancel-selection-button" (click)="selectedItem = null"></ion-icon>
+    <ion-icon name="close-outline" size="large" class="cancel-selection-button" (click)="deleteSelectedItem()"></ion-icon>
   </div>
 
 

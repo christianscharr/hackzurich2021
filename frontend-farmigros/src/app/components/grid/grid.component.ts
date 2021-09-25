@@ -1,9 +1,10 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Gesture, GestureController, IonContent} from '@ionic/angular';
 
 import * as Hammer from 'hammerjs';
 import {element} from 'protractor';
 import {getItemSizeByZoomLevel} from '../../helpers/helpers';
+import {Item} from '../item/Item';
 
 @Component({
   selector: 'app-grid',
@@ -13,6 +14,8 @@ import {getItemSizeByZoomLevel} from '../../helpers/helpers';
 export class GridComponent implements AfterViewInit, OnInit {
 
   zoomLevel = 5;
+  selectedItem: Item = null;
+
 
   gridItems = [
     {x: 0, y: 0, plant: 'tree', level: 1},
@@ -166,9 +169,7 @@ export class GridComponent implements AfterViewInit, OnInit {
 
 
 
-  constructor(private gestureCtrl: GestureController) {
-
-  }
+  constructor(private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
 
@@ -208,9 +209,30 @@ export class GridComponent implements AfterViewInit, OnInit {
     console.log(event);
   }
 
-  private pinchEvent(event) {
-    console.log(event);
+  onGridClick({x, y, event}) {
+    console.log(x, y, event, event === 'sow' && this.selectedItem);
+
+    if(event === 'sow' && this.selectedItem) {
+      console.log(this.selectedItem);
+
+      this.gridItems = this.gridItems.map(gridItem => {
+        if(gridItem.x === x && gridItem.y === y) {
+          gridItem.plant =  this.selectedItem.type;
+          gridItem.level = 1;
+        }
+        return gridItem;
+
+      }) as [];
+    }
+
+    this.cdr.detectChanges();
+
   }
+
+  onSelectItem(item) {
+    this.selectedItem = item;
+  }
+
 
 
 }
