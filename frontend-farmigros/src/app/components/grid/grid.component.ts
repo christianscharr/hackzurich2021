@@ -230,6 +230,10 @@ export class GridComponent implements AfterViewInit, OnInit {
         return gridItem;
 
       }) as [];
+      this.selectedItem.amount--;
+      if (this.selectedItem.amount <= 0) {
+        this.selectedItem = null;
+      }
     }
   }
 
