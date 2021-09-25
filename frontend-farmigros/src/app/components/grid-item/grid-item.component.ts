@@ -87,8 +87,6 @@ export class GridItemComponent implements OnInit {
       return;
     }
 
-    console.log({x: this.positionX, y: this.positionY, event: this.moveOperationOngoing ? 'move' : 'sow'});
-
     this.clicked.emit({x: this.positionX, y: this.positionY, event: this.moveOperationOngoing ? 'move' : 'sow'});
 
   }

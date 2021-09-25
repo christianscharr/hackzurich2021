@@ -78,9 +78,7 @@ export class ReceiptPagePage {
       this.isProcessing = false;
       await this.loadingElement.dismiss();
       this.receiptContents = [];
-      console.log(response);
     } catch (err) {
-      console.error(err);
       this.isProcessing = false;
       await this.loadingElement.dismiss();
       await this.router.navigateByUrl('');
