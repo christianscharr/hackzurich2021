@@ -16,6 +16,7 @@
   "private": true,
   "dependencies": {
     "@angular-devkit/core": "^12.2.7",
+    "@angular-devkit/schematics": "^12.2.7",
     "@angular/common": "^12.1.5",
     "@angular/core": "^12.1.5",
     "@angular/forms": "~12.1.1",
