@@ -6,7 +6,6 @@ import { Credentials } from './credentials';
 import { User, UserSchema } from "./schemas/user.schema";
 import { ReceiptsController } from './receipts/receipts.controller';
 import { Product, ProductSchema } from "./schemas/product.schema";
-import {HttpClientModule} from '@angular/common/http';
 
 @Module({
   imports: [

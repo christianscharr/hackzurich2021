@@ -12,15 +12,12 @@
     <ion-icon name="close-outline" size="large" class="cancel-selection-button" (click)="deleteSelectedItem()"></ion-icon>
   </div>
 
-  <div class="categories-container">
-    <div class="item-grid" *ngFor="let category of itemsAvailable">
-      <p class="category-label">{{category.label}}</p><br>
-      <div *ngFor="let item of category.items"
+    <div class="item-grid">
+      <div *ngFor="let item of itemsAvailable"
            class="grid-item"
            [ngStyle]="{backgroundImage:  'url(../../../assets/items/'+ item.type +'-' + item.level +'.png)'}"
            (click)="setSelectedItem(item.id)"
       >
       </div>
-  </div>
   </div>
 </div>

@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {Camera, CameraResultType} from '@capacitor/camera';
-import {HttpClient} from '@angular/common/http';
 
 
 @Component({
@@ -10,7 +9,7 @@ import {HttpClient} from '@angular/common/http';
 })
 export class CameraPagePage implements OnInit {
 
-  constructor(private httpClient: HttpClient) {
+  constructor() {
   }
 
   ngOnInit() {
@@ -23,18 +22,18 @@ export class CameraPagePage implements OnInit {
 
     const image = await Camera.getPhoto({
       quality: 90,
-      allowEditing: false,
-      resultType: CameraResultType.DataUrl,
+      allowEditing: true,
+      resultType: CameraResultType.Uri
     });
     // image.webPath will contain a path that can be set as an image src.
     // You can access the original file using image.path, which can be
     // passed to the Filesystem API to read the raw data of the image,
     // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
-    var dataUrl = image.dataUrl;
-    console.log(dataUrl)
-    this.httpClient.post('localhost:3000/upload', dataUrl)
+    var imageUrl = image.webPath;
 
     // Can be set to the src of an image now
-    //imageElement.src = dataUrl;
+    //imageElement.src = imageUrl;
   };
+
+
 }
