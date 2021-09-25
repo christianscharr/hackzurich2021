@@ -1,3 +1,3 @@
-<div class="grid-item" [ngStyle]="{left: positionX * 64 + 'px', top: positionY * 64 + 'px'}">
-  {{positionX}}, {{positionY}}
+<div class="grid-item" [ngStyle]="{left: positionX * sizes[zoomLevel] + 'px', top: positionY * sizes[zoomLevel] + 'px', height: sizes[zoomLevel] + 'px',  width: sizes[zoomLevel] + 'px'}">
+  <div *ngIf="plant" class="plant" [ngStyle]="{backgroundImage:  'url(../../../assets/items/'+ plant +'-' + level +'.png)'}" (click)="onClick($event)"></div>
 </div>

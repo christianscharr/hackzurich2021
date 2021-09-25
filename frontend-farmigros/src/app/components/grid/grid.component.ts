@@ -1,18 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Gesture, GestureController } from '@ionic/angular';
 
 @Component({
   selector: 'app-grid',
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.scss'],
 })
-export class GridComponent implements OnInit {
+export class GridComponent {
+
+  zoomLevel = 5;
 
   gridItems = [
-    {x: 0, y: 0},
-    {x: 0, y: 1},
-    {x: 0, y: 2},
-    {x: 0, y: 3},
-    {x: 0, y: 4},
+    {x: 0, y: 0, plant: 'tree', level: 1},
+    {x: 0, y: 1, plant: 'tree', level: 2},
+    {x: 0, y: 2, plant: 'tree', level: 3},
+    {x: 0, y: 3, plant: 'tree', level: 4},
+    {x: 0, y: 4, plant: 'tree', level: 'dead'},
     {x: 0, y: 5},
     {x: 0, y: 6},
     {x: 0, y: 7},
@@ -130,8 +133,29 @@ export class GridComponent implements OnInit {
     {x: 9, y: 11},
   ];
 
-  constructor() { }
+  private gesture: Gesture;
+  @ViewChild('grid') element;
 
-  ngOnInit() {}
+
+  constructor(private gestureCtrl: GestureController) {
+
+  }
+
+  onMove(detail): void {
+    console.log('moved', detail);
+  }
+
+  onPinch(event) {
+    console.log(event);
+  }
+
+  onClick(event) {
+    console.log(event);
+  }
+
+  private pinchEvent(event) {
+    console.log(event);
+  }
+
 
 }
