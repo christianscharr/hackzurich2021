@@ -1,9 +1,22 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>camera-page</ion-title>
+  <ion-toolbar color="migros">
+    <ion-title>Capture your Migros Receipt</ion-title>
   </ion-toolbar>
 </ion-header>
-
-<ion-content>
-
+<ion-content *ngIf="!isProcessing && !receiptContents">
+  <ion-card>
+    <ion-card-content>
+      <p align="center">You want more seeds and animals? Here we go!</p>
+      <p>&nbsp;</p>
+      <p align="center">Make a photo of your Bon and see if you're lucky.</p>
+      <p>&nbsp;</p>
+      <p align="center">Tip: Watch out for high M-Score ratings to increase the chances to get new items.</p>
+      <p align="center">Happy Planet = Lucky Farmer</p>
+    </ion-card-content>
+  </ion-card>
+  <ion-fab horizontal="center" vertical="center">
+    <ion-fab-button (click)="takePicture()" color="migros">
+      <ion-icon name="camera" size="large"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
