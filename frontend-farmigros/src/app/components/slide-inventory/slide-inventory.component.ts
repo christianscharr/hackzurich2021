@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Item} from "../item/Item";
+import {Item} from '../item/Item';
 
 @Component({
   selector: 'app-slide-inventory',
@@ -11,7 +11,7 @@ export class SlideInventoryComponent {
   @Output() select = new EventEmitter<Item | null>();
 
 
-  isOpen: boolean = false;
+  isOpen = false;
   itemsAvailable: Item[] = [
     {id: 1, type: 'tree', level: 1},
   ];

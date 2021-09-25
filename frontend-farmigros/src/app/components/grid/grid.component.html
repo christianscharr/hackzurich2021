@@ -1,4 +1,4 @@
-<ion-content [scrollX]="true" [scrollY]="true" class="grid" (pinch)="onPinch($event)">
+<ion-content [scrollX]="true" [scrollY]="true" class="grid" (pinch)="onPinch($event)" (touchstart)="onTouchStart()">
   <input class="zoom-slider" type="range" min="1" max="10" [(ngModel)]="zoomLevel"/>
   <app-camera-button class="camera-button"></app-camera-button>
   <app-grid-item

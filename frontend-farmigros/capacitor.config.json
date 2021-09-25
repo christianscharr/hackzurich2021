@@ -1,3 +1,6 @@
 {
-  "appId": "farmigros"
+  "appId": "farmigros",
+  "server": {
+    "url": "http://10.15.3.23:8101"
+  }
 }
