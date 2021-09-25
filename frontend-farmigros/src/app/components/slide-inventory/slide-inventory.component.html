@@ -1,9 +1,13 @@
+<ion-fab vertical="bottom" horizontal="start" slot="fixed">
+  <ion-fab-button (click)="toggleOpen()" color="migros">
+    <ion-icon name="cube"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
 
 <div class="slide-menu" [ngClass]="{'is-open': isOpen, 'is-item-preview': selectedItem !== null}">
-  <a class="open-button" (click)="toggleOpen()" *ngIf="selectedItem === null">
-    <ion-icon [name]="isOpen ? 'chevron-down' : 'chevron-up'" size="large"></ion-icon>
-  </a>
-
+  <ion-fab-button class="open-button" (click)="toggleOpen()" *ngIf="selectedItem === null" color="migros">
+    <ion-icon name="close" size="large"></ion-icon>
+  </ion-fab-button>
   <div *ngIf="selectedItem !== null">
     <p class="item-amount">{{selectedItem.amount}}</p>
     <div

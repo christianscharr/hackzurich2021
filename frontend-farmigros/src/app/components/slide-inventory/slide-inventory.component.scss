@@ -8,7 +8,7 @@
   margin-left: -15vw;
   margin-right: -15vw;
   width: 30vw;
-  height: 60vh;
+  height: 30vh;
   background-color: $colorOrange;
   justify-content: space-around;
   transform: translateY(52vh);
@@ -19,7 +19,7 @@
   box-shadow: 3px -3px 3px $colorBlackTransparent;
 
   &.is-open {
-    transform: translateY(0);
+    transform: translateY(-50%) translateX(0);
     width: 100vw;
     left: 0;
     right: auto;

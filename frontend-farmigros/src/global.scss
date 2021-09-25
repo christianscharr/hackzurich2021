@@ -28,3 +28,21 @@
 $colorOrange: #f60;
 $colorGrayTransparent: rgba(194, 214, 198, 0.3);
 $colorBlackTransparent: rgba(0,0,0,0.2);
+
+:root {
+  --ion-color-migros: #FF6600;
+  --ion-color-migros-rgb: 255,102,0;
+  --ion-color-migros-contrast: #FFFFFF;
+  --ion-color-migros-contrast-rgb: 0,0,0;
+  --ion-color-migros-shade: #e05a00;
+  --ion-color-migros-tint: #ff751a;
+}
+
+.ion-color-migros {
+  --ion-color-base: var(--ion-color-migros);
+  --ion-color-base-rgb: var(--ion-color-migros-rgb);
+  --ion-color-contrast: var(--ion-color-migros-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-migros-contrast-rgb);
+  --ion-color-shade: var(--ion-color-migros-shade);
+  --ion-color-tint: var(--ion-color-migros-tint);
+}

@@ -1,7 +1,5 @@
 <ion-content [scrollX]="true" [scrollY]="true" class="grid" (pinch)="onPinch($event)" (touchstart)="onTouchStart()">
   <input class="zoom-slider" type="range" min="1" max="10" [(ngModel)]="zoomLevel"/>
-  <app-camera-button class="camera-button"></app-camera-button>
-  <app-tutorial-button class="tutorial-button"></app-tutorial-button>
   <app-grid-item
     *ngFor="let item of gridItems, let x = index"
     [positionX]="item.x" [positionY]="item.y"
@@ -16,4 +14,5 @@
   ></app-grid-item>
 </ion-content>
 <app-slide-inventory [selectedItem]="selectedItem" (select)="onSelectItem($event)"></app-slide-inventory>
-
+<app-receipt-button class="camera-button"></app-receipt-button>
+<app-tutorial-button class="tutorial-button"></app-tutorial-button>
