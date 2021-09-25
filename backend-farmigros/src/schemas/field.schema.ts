@@ -16,8 +16,8 @@ export class Field {
 }
 
 export enum FieldType{
-    WHEAT_FIELD=0,
-    POND=1,
-    CAGE=2,
-    TREE_FIELD=3
+    WHEAT_FIELD = 0,
+    POND = 1,
+    CAGE = 2,
+    TREE_FIELD = 3
 }

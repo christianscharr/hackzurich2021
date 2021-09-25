@@ -1,11 +1,24 @@
-<div class="slide-menu" [ngClass]="{'is-open': isOpen}">
-  <a class="open-button" (click)="isOpen = !isOpen">
+
+<div class="slide-menu" [ngClass]="{'is-open': isOpen, 'is-item-preview': selectedItem !== null}">
+  <a class="open-button" (click)="toggleOpen()" *ngIf="selectedItem === null">
     <ion-icon [name]="isOpen ? 'chevron-down' : 'chevron-up'" size="large"></ion-icon>
   </a>
 
-  <ion-grid>
-    <ion-row *ngFor="let i of [1,2,3,4,5,6,7,8]">
-      <ion-col *ngFor="let j of [1,2,3,4]"></ion-col>
-    </ion-row>
-  </ion-grid>
+  <div *ngIf="selectedItem !== null">
+    <div
+      class="selected-item-view"
+      [ngStyle]="{backgroundImage:  selectedItem !== null ? 'url(../../../assets/items/'+ selectedItem.type +'-' + selectedItem.level +'.png)' : ''}">
+    </div>
+    <ion-icon name="close-outline" size="large" class="cancel-selection-button" (click)="selectedItem = null"></ion-icon>
+  </div>
+
+
+  <div class="item-grid">
+    <div *ngFor="let item of itemsAvailable"
+         class="grid-item"
+         [ngStyle]="{backgroundImage:  'url(../../../assets/items/'+ item.type +'-' + item.level +'.png)'}"
+         (click)="setSelectedItem(item.id)"
+    >
+    </div>
+  </div>
 </div>
