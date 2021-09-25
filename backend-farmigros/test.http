@@ -22,3 +22,7 @@ Content-Type: application/json
   "newY": 0
 }
 
+###
+GET localhost:3000/grid-objects
+
+
