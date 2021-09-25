@@ -93,6 +93,8 @@ export class GridComponent implements AfterViewInit, OnInit {
       }) as [];
 
       this.movingItem = null;
+
+      this.ngChange.detectChanges();
     }
   }
 

@@ -1,7 +1,7 @@
 <div
   class="grid-item"
   [ngStyle]="{left: positionX * sizes[zoomLevel] + 'px', top: positionY * sizes[zoomLevel] + 'px', height: sizes[zoomLevel] + 'px',  width: sizes[zoomLevel] + 'px'}"
-  (click)="onClick($event)">
+  >
   <div
     *ngIf="plant"
     class="plant"
@@ -9,8 +9,10 @@
     [ngClass]="{'plant--shaking': isMoving}"
     (click)="onClick($event)"></div>
   <div
-    *ngIf="moveOperationOngoing && !plant"
+    *ngIf="moveOperationOngoing || seadOperationOngoing"
+    (click)="onClick($event)"
     class="is-moving-target">
   </div>
 </div>
+
 

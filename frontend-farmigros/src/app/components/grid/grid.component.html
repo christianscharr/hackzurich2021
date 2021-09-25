@@ -10,6 +10,7 @@
     [zoomLevel]="zoomLevel"
     (clicked)="onGridClick($event)"
     [moveOperationOngoing]="!!movingItem"
+    [seadOperationOngoing]="!!selectedItem"
     [isMoving]="!!movingItem && item.x === movingItem.x  && item.y === movingItem.y"
     (startMoving)="onStartMoving($event)"
   ></app-grid-item>
