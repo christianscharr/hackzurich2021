@@ -13,8 +13,8 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'camera',
-    loadChildren: () => import('./camera-page/camera-page.module').then( m => m.CameraPagePageModule)
+    path: 'receipt',
+    loadChildren: () => import('./receipt-page/receipt-page.module').then(m => m.ReceiptPagePageModule)
   },
 ];
 

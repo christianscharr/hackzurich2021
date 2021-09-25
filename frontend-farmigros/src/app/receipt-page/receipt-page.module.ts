@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
-
-import { CameraPagePageRoutingModule } from './camera-page-routing.module';
-
-import { CameraPagePage } from './camera-page.page';
+import { ReceiptPagePageRoutingModule } from './receipt-page-routing.module';
+import { ReceiptPagePage } from './receipt-page.page';
 import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
@@ -14,9 +11,9 @@ import {HttpClientModule} from '@angular/common/http';
     CommonModule,
     FormsModule,
     IonicModule,
-    CameraPagePageRoutingModule,
+    ReceiptPagePageRoutingModule,
     HttpClientModule
   ],
-  declarations: [CameraPagePage]
+  declarations: [ReceiptPagePage]
 })
-export class CameraPagePageModule {}
+export class ReceiptPagePageModule {}

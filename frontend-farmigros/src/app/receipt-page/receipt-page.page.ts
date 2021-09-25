@@ -4,11 +4,11 @@ import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 
 @Component({
-  selector: 'app-camera-page',
-  templateUrl: './camera-page.page.html',
-  styleUrls: ['./camera-page.page.scss'],
+  selector: 'app-receipt-page',
+  templateUrl: './receipt-page.page.html',
+  styleUrls: ['./receipt-page.page.scss'],
 })
-export class CameraPagePage implements OnInit {
+export class ReceiptPagePage implements OnInit {
 
   constructor(@Inject(HttpClient) private httpClient: HttpClient,
               @Inject(Router) private router: Router) {
