@@ -2,36 +2,57 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {Camera, CameraResultType, CameraSource, Photo} from '@capacitor/camera';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
+import {LoadingController} from '@ionic/angular';
 
 @Component({
   selector: 'app-receipt-page',
   templateUrl: './receipt-page.page.html',
   styleUrls: ['./receipt-page.page.scss'],
 })
-export class ReceiptPagePage implements OnInit {
+export class ReceiptPagePage {
+  receiptContents: [] = null;
+  isProcessing = false;
+  loadingElement: HTMLIonLoadingElement;
 
   constructor(@Inject(HttpClient) private httpClient: HttpClient,
-              @Inject(Router) private router: Router) {
+              @Inject(Router) private router: Router,
+              @Inject(LoadingController) public loadingController: LoadingController) {
   }
 
-  async ngOnInit() {
-    try {
-      await this.takePicture();
-    } finally {
-      await this.router.navigateByUrl('');
-    }
+  async presentProcessing(): Promise<void> {
+    this.isProcessing = true;
+    this.loadingElement = await this.loadingController.create({
+      cssClass: 'receipt-processing',
+      message: 'Processing...',
+      backdropDismiss: false,
+      keyboardClose: true,
+      showBackdrop: true
+    });
+
+    await this.loadingElement.present();
   }
 
   async takePicture() {
-    const cameraPhoto: Photo = await Camera.getPhoto({
-      quality: 100,
-      allowEditing: true,
-      resultType: CameraResultType.DataUrl,
-      correctOrientation: true,
-      saveToGallery: false,
-      source: CameraSource.Camera,
-    });
+    await this.presentProcessing();
+    let cameraPhoto: Photo;
+
+    try {
+      cameraPhoto = await Camera.getPhoto({
+        quality: 100,
+        allowEditing: true,
+        resultType: CameraResultType.DataUrl,
+        correctOrientation: true,
+        saveToGallery: false,
+        source: CameraSource.Camera,
+      });
+    } catch (err) {
+
+    }
+
     if (!cameraPhoto) {
+      this.isProcessing = false;
+      await this.loadingElement.dismiss();
+      await this.router.navigateByUrl('');
       return;
     }
 
@@ -45,12 +66,24 @@ export class ReceiptPagePage implements OnInit {
         method: 'POST',
         body: formData,
       });
+
       if (!response.ok) {
-        throw new Error(response.statusText);
+        console.error(response);
+        this.isProcessing = false;
+        await this.loadingElement.dismiss();
+        await this.router.navigateByUrl('');
+        return;
       }
+
+      this.isProcessing = false;
+      await this.loadingElement.dismiss();
+      this.receiptContents = [];
       console.log(response);
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      this.isProcessing = false;
+      await this.loadingElement.dismiss();
+      await this.router.navigateByUrl('');
     }
   };
 }

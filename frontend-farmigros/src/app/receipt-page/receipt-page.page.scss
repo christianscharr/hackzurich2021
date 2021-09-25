@@ -1,0 +1,26 @@
+ion-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  --background: url("../../assets/landscape/background.jpg") 50% 0/250% 100% no-repeat;
+}
+
+ion-card {
+  --background: url("../../assets/landscape/wooden.jpg") center center no-repeat;
+  --color: #FFFFFF;
+}
+
+ion-fab.fab-horizontal-center {
+  margin-inline-start: -42px;
+}
+
+ion-fab-button {
+  width: 84px;
+  height: 84px;
+}
+
+ion-icon {
+  font-size: 48px !important;
+  width: 48px;
+  height: 48px;
+}
