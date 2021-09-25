@@ -41,7 +41,7 @@
   }
 
   &.is-item-preview {
-    transform: translateY(calc(58vh - 35vw));
+    transform: translateY(calc(55vh - 35vw));
     width: 25vw;
     left: 50%;
     right: 50%;
@@ -102,5 +102,11 @@
   border-collapse: collapse;
   background-color: $colorBlackTransparent;
   background-size: cover;
+}
+
+.item-amount {
+  color: white;
+  margin: 0;
+  font-size: 22px;
 }
 

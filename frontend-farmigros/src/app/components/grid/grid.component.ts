@@ -2,6 +2,7 @@ import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/
 import {Gesture, GestureController, IonContent} from '@ionic/angular';
 import {getItemSizeByZoomLevel} from '../../helpers/helpers';
 import {Item} from '../item/Item';
+import {ItemStash} from "../item/ItemStash";
 
 @Component({
   selector: 'app-grid',
@@ -11,7 +12,7 @@ import {Item} from '../item/Item';
 export class GridComponent implements AfterViewInit, OnInit {
 
   zoomLevel = 5;
-  selectedItem: Item = null;
+  selectedItem: ItemStash = null;
   action: any; //not stacking actions
 
 
@@ -217,14 +218,13 @@ export class GridComponent implements AfterViewInit, OnInit {
   }
 
   onGridClick({x, y, event}) {
-    console.log(x, y, event, event === 'sow' && this.selectedItem);
+    console.log(this.selectedItem)
 
     if(event === 'sow' && this.selectedItem) {
-      console.log(this.selectedItem);
 
       this.gridItems = this.gridItems.map(gridItem => {
         if(gridItem.x === x && gridItem.y === y) {
-          gridItem.plant =  this.selectedItem.type;
+          gridItem.plant =  this.selectedItem.item.type;
           gridItem.level = 1;
         }
         return gridItem;
@@ -239,7 +239,6 @@ export class GridComponent implements AfterViewInit, OnInit {
 
 
   private longPressAction() {
-    console.log('hallo');
     /*if (this.action) {
       clearInterval(this.action);
     }
