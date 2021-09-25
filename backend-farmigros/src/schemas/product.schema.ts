@@ -4,26 +4,26 @@ import { Document, ObjectId } from "mongoose";
 export type ProductDocument = Product & Document;
 
 export class ProductImage {
-  source: String;
-  code: String;
-  description: String;
-  original: String;
-  small: String;
-  medium: String;
-  large: String;
+  source: string;
+  code: string;
+  description: string;
+  original: string;
+  small: string;
+  medium: string;
+  large: string;
 }
 
 export class ProductDescription {
-  text: String;
-  source: String;
+  text: string;
+  source: string;
 }
 
 export class MCheck {
   carbon_footprint: MCheckCarbonFootprint;
   animal_welfare: MCheckAnimalWelfare;
-  air_cargo_relevant: Boolean;
-  m_check_relevant: Boolean;
-  animal_welfare_relevant: Boolean;
+  air_cargo_relevant: boolean;
+  m_check_relevant: boolean;
+  animal_welfare_relevant: boolean;
 }
 
 export class MCheckCarbonFootprint {
@@ -33,49 +33,49 @@ export class MCheckCarbonFootprint {
 }
 
 export class MCheckCarbonFootprintCargo {
-  kg_co2: Number;
-  kg_co2_range: String;
-  co2_in_car_km: Number;
-  rating: Number;
-  production_in_percent: Number;
-  packaging_in_percent: Number;
-  transport_in_percent: Number;
+  kg_co2: number;
+  kg_co2_range: string;
+  co2_in_car_km: number;
+  rating: number;
+  production_in_percent: number;
+  packaging_in_percent: number;
+  transport_in_percent: number;
 }
 
 export class MCheckAnimalWelfare {
-  rating: Number;
-  label: String;
+  rating: number;
+  label: string;
   image: ProductImage
 }
 
 @Schema()
 export class Product {
   @Prop()
-  id: String;
+  id: string;
 
   @Prop()
-  name: String;
+  name: string;
 
   @Prop()
-  product_type: String;
+  product_type: string;
 
   @Prop()
   image: ProductImage;
 
   @Prop()
-  slug: String;
+  slug: string;
 
   @Prop()
-  receipt_text: String;
+  receipt_text: string;
 
   @Prop()
   description: ProductDescription;
 
   @Prop()
-  short_description: String;
+  short_description: string;
 
   @Prop()
-  gtins: [String];
+  gtins: [string];
 
   @Prop()
   m_check2: MCheck;

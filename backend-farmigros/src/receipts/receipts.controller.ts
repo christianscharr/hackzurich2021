@@ -5,11 +5,10 @@ import { Credentials } from "../credentials";
 import { ProductCategory, ProductDto } from "../dtos/product-dto";
 import { AuzreReceiptMock } from "./azure-ReceiptResult-mock";
 import { ReceiptResponse } from "../dtos/receipt-response";
-import { CarbonFootprintType } from "../dtos/carbon-footprint-dto";
 import { InjectModel } from "@nestjs/mongoose";
-import { User, UserDocument } from "../schemas/user.schema";
 import { Model } from "mongoose";
 import { Product, ProductDocument } from "../schemas/product.schema";
+import { CarbonFootprintType } from "../dtos/carbon-footprint-dto";
 
 @Controller('receipts')
 export class ReceiptsController {
@@ -34,6 +33,11 @@ export class ReceiptsController {
 
     for (let receiptName in receiptNames) {
       const product = await this.mapReceiptNameToProdcut(receiptName);
+
+      if (product === null) {
+        continue;
+      }
+
       products.push(product);
     }
 
@@ -49,6 +53,11 @@ export class ReceiptsController {
 
     for (let receiptName of receiptNames) {
       const product = await this.mapReceiptNameToProdcut(receiptName);
+
+      if (product === null) {
+        continue;
+      }
+
       products.push(product);
     }
 
@@ -84,16 +93,48 @@ export class ReceiptsController {
     const product = await this.productModel.findOne({ receipt_text: receiptName }).exec();
 
     if (!product) {
-      console.error(`Failed to query product with receipt name "${receiptName}"`);
+      console.error(`[WARN] Failed to query product with receipt name "${receiptName}"`);
       return null;
     }
 
     const productDto: ProductDto = {
-      name: product.name.toString(),
-      receipt_test: product.receipt_text.toString(),
+      name: product.name,
+      receipt_test: product.receipt_text,
       id: product.id,
       category: ProductCategory.FRUITS,
     };
+
+    if (product.m_check2 && product.m_check2.carbon_footprint
+      && (product.m_check2.carbon_footprint.air_cargo || product.m_check2.carbon_footprint.ground_and_sea_cargo)) {
+      productDto.carbonFootprint = {
+        image: product.m_check2.carbon_footprint.image.original,
+        data: []
+      };
+
+      if (product.m_check2.carbon_footprint.air_cargo) {
+        productDto.carbonFootprint.data.push({
+          kgCo2: product.m_check2.carbon_footprint.air_cargo.kg_co2,
+          rating: product.m_check2.carbon_footprint.air_cargo.rating,
+          type: CarbonFootprintType.AIR_CARGO,
+        });
+      }
+
+      if (product.m_check2.carbon_footprint.ground_and_sea_cargo) {
+        productDto.carbonFootprint.data.push({
+          kgCo2: product.m_check2.carbon_footprint.ground_and_sea_cargo.kg_co2,
+          rating: product.m_check2.carbon_footprint.ground_and_sea_cargo.rating,
+          type: CarbonFootprintType.GROUND_AND_SEA_CARGO,
+        });
+      }
+    }
+
+    if (product.m_check2 && product.m_check2.animal_welfare) {
+      productDto.animalWelfare = {
+        image: product.m_check2.animal_welfare.image.original,
+        rating: product.m_check2.animal_welfare.rating,
+        label: product.m_check2.animal_welfare.label,
+      };
+    }
 
     return productDto;
   }
