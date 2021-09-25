@@ -176,6 +176,14 @@ export class ReceiptsController {
           return ProductCategory.BAKERY;
         case "Müesli & Cerealien":
           return ProductCategory.CEREALS;
+        case "Chips":
+          return ProductCategory.CHIPS;
+        case "Milch & Milchgetränke":
+          return ProductCategory.MILK;
+        case "Eier":
+          return ProductCategory.EGGS;
+        case "Pasta":
+          return ProductCategory.PASTA;
       }
     }
 
