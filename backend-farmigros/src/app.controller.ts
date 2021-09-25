@@ -14,6 +14,17 @@ export class AppController {
     ) {
     }
 
+    @Put('/move-grid-object')
+    async moveGridObject(@Body() body: {oldX: number, oldY: number, newX: number, newY: number}){
+        const user = await this.userModel.findOne().exec();
+        let index = user.gridObjects.findIndex((gridObject) => gridObject.positionX === body.oldX && gridObject.positionY === body.oldY)
+        let newGridObject = new GridObject(body.newX, body.newY, user.gridObjects[index].addedAt, user.gridObjects[index].objectType)
+        user.gridObjects.splice(index, 1)
+        user.gridObjects.push(newGridObject)
+        console.log(user)
+        await user.save();
+    }
+
     @Get('/grid-objects')
     async getFields(): Promise<GridObject[]> {
         return (await this.userModel.findOne().exec()).gridObjects;
@@ -51,7 +62,7 @@ export class AppController {
     }
 
     @Put('/put')
-    async plant(@Body() body: { positionX: number, positionY: number, objectType: ObjectType }) {
+    async put(@Body() body: { positionX: number, positionY: number, objectType: ObjectType }) {
         const user = (await this.userModel.findOne().exec());
         if (!user.inventory.includes(body.objectType)) {
             throw new GoneException();

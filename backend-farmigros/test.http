@@ -11,4 +11,14 @@ Content-Type: application/json
   "objectType": 0
 }
 
+###
+PUT localhost:3000/move-grid-object
+Content-Type: application/json
+
+{
+  "oldX": 100,
+  "oldY": 100,
+  "newX": 0,
+  "newY": 0
+}
 
