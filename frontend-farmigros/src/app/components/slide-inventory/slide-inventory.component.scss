@@ -15,6 +15,7 @@
   transition: 400ms;
   border-radius: 20px;
   text-align: center;
+  overflow: scroll;
 
   &.is-open {
     transform: translateY(0);
@@ -25,6 +26,7 @@
     border-radius: 10px;
     animation-duration: 200ms;
     animation-name: slider-change;
+    box-shadow: 5px -5px 3px $colorBlackTransparent;
 
     ion-grid {
       display: inherit;
@@ -59,7 +61,6 @@
 }
 
 ion-grid {
-  overflow: scroll;
   display: none;
   flex-grow: 0;
   padding: 0;
