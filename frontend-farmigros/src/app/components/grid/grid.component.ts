@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Gesture, GestureController } from '@ionic/angular';
 
 @Component({
   selector: 'app-grid',
@@ -8,11 +9,11 @@ import { Component, OnInit } from '@angular/core';
 export class GridComponent implements OnInit {
 
   gridItems = [
-    {x: 0, y: 0},
-    {x: 0, y: 1},
-    {x: 0, y: 2},
-    {x: 0, y: 3},
-    {x: 0, y: 4},
+    {x: 0, y: 0, plant: 'tree', level: 1},
+    {x: 0, y: 1, plant: 'tree', level: 2},
+    {x: 0, y: 2, plant: 'tree', level: 3},
+    {x: 0, y: 3, plant: 'tree', level: 4},
+    {x: 0, y: 4, plant: 'tree', level: 'dead'},
     {x: 0, y: 5},
     {x: 0, y: 6},
     {x: 0, y: 7},
@@ -110,8 +111,51 @@ export class GridComponent implements OnInit {
     {x: 9, y: 9},
   ];
 
-  constructor() { }
+  private gesture: Gesture;
+  @ViewChild('grid') element;
 
-  ngOnInit() {}
+
+  constructor(private gestureCtrl: GestureController) {
+
+  }
+
+  ngOnInit() {
+    const gesture = this.gestureCtrl.create({
+      gestureName: 'test',
+      el: this.element.nativeElement,
+      onMove: (detail) => { this.onMove(detail); },
+    });
+
+    gesture.enable();
+  }
+
+  /*
+  ionViewDidLoad() {
+//create gesture obj w/ ref to DOM element
+this.gesture = new Gesture(this. el.nativeElement);
+
+//listen for the gesture
+this.gesture.listen();
+
+//turn on listening for pinch or rotate events
+this.gesture.on('pinch', e => this.pinchEvent(e));
+}
+   */
+
+  private pinchEvent(event) {
+    console.log(event);
+  }
+
+  onMove(detail) {
+    console.log('mounted', detail);
+  }
+
+  onPinch(event) {
+    console.log(event);
+  }
+
+  onClick(event) {
+    console.log(event);
+  }
 
 }

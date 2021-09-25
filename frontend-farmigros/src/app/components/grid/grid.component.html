@@ -1,3 +1,10 @@
 <div class="grid">
-  <app-grid-item *ngFor="let item of gridItems, let x = index" [positionX]="item.x" [positionY]="item.y"></app-grid-item>
+  <app-grid-item
+    #grid
+    *ngFor="let item of gridItems, let x = index"
+    [positionX]="item.x" [positionY]="item.y"
+    [plant]="item.plant"
+    [level]="item.level"
+    (pinch)="onPinch($event)"
+  ></app-grid-item>
 </div>
