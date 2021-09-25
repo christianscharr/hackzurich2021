@@ -78,6 +78,7 @@ export class ReceiptPagePage {
       this.isProcessing = false;
       await this.loadingElement.dismiss();
       this.receiptContents = [];
+      const resJson = await response.json();
     } catch (err) {
       this.isProcessing = false;
       await this.loadingElement.dismiss();
