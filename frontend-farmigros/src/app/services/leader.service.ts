@@ -21,7 +21,7 @@ export class LeaderService {
   leaderBoard() {
     return this.http.get('http://localhost:3000/leaderboard').pipe(
       map(points => ({name: 'Albert Einstein', points: points || 0})),
-      map(me => [me, ...this.competitors].sort((a: {name: string, points: number}, b:{name: string, points: number}) =>  a.points - b.points)),
+      map(me => [me, ...this.competitors].sort((a: {name: string, points: number}, b:{name: string, points: number}) =>  b.points - a.points)),
     );
   }
 

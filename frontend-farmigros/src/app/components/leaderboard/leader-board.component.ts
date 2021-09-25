@@ -7,10 +7,11 @@ import {LeaderService} from '../../services/leader.service';
   styleUrls: ['./leader-board.component.scss'],
 })
 export class LeaderBoardComponent implements OnInit {
+  leaders = [];
 
   constructor(private leaderService: LeaderService) {
     leaderService.leaderBoard().subscribe(leaders => {
-      console.log(leaders);
+      this.leaders = leaders;
       }
     )
   }

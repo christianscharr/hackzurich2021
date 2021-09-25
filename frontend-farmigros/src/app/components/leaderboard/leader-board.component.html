@@ -1,6 +1,5 @@
 <div class="container">
   <ol>
-    <li>Thomas</li>
-    <li>Peter</li>
+    <li *ngFor="let leader of leaders" [ngClass]="{'custom-name': leader.name === 'Albert Einstein'}">{{leader.name}}  {{leader.points}}</li>
   </ol>
 </div>
