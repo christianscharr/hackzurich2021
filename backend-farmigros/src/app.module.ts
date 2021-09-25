@@ -9,7 +9,6 @@ import { Product, ProductSchema } from "./schemas/product.schema";
 
 @Module({
   imports: [
-    HttpClientModule,
     MongooseModule.forRoot(Credentials.mongoDbUrl),
     MongooseModule.forFeature([
       {

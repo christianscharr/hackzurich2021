@@ -7,6 +7,7 @@ export enum MCheckType {
 }
 
 export enum ProductCategory {
+  UNKNOWN = 'UNKNOWN',
   BAKERY = 'BAKERY',
   CHIPS = 'CHIPS',
   CEREALS = 'CEREALS',
@@ -22,7 +23,7 @@ export enum ProductCategory {
 export interface ProductDto {
   id: number;
   name: string;
-  description: string;
+  description?: string;
   receipt_test: string;
   category: ProductCategory;
   carbonFootprint?: CarbonFootprintDto;
