@@ -16,6 +16,7 @@ export class LeaderBoardComponent implements OnInit {
     )
   }
 
+
   ngOnInit() {
 
   }

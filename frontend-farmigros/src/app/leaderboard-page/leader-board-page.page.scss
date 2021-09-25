@@ -1,0 +1,27 @@
+@import '../../global';
+
+ion-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  --background: url("../../assets/landscape/background.jpg") 50% 0/250% 100% no-repeat;
+}
+
+ion-card {
+  --background: url("../../assets/landscape/wooden.jpg") center center no-repeat;
+  background-size: cover;
+  --color: #FFFFFF;
+  margin-top: 40px;
+}
+
+.person {
+  font-size: 1.4rem;
+  line-height: 2.8rem;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
+}
+
+.me {
+  color: $colorOrange;
+  font-weight: bold;
+}
+

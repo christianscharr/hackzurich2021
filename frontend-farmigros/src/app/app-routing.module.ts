@@ -16,6 +16,10 @@ const routes: Routes = [
     path: 'receipt',
     loadChildren: () => import('./receipt-page/receipt-page.module').then(m => m.ReceiptPagePageModule)
   },
+  {
+    path: 'leaderboard',
+    loadChildren: () => import('./leaderboard-page/leader-board-page.module').then(m => m.LeaderBoardPageModule)
+  },
 ];
 
 @NgModule({
