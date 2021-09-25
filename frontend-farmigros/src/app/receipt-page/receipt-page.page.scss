@@ -3,11 +3,28 @@ ion-content {
   align-items: center;
   justify-content: center;
   --background: url("../../assets/landscape/background.jpg") 50% 0/250% 100% no-repeat;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
+}
+
+ion-label.product-row {
+  display: flex;
+  flex-direction: row;
+}
+
+ion-thumbnail .product-thumbnail {
+  position: relative;
+  display: inline-block;
+  height: 56px;
+  width: 56px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
 ion-card {
   --background: url("../../assets/landscape/wooden.jpg") center center no-repeat;
   --color: #FFFFFF;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
 }
 
 ion-fab.fab-horizontal-center {
@@ -23,4 +40,54 @@ ion-icon {
   font-size: 48px !important;
   width: 48px;
   height: 48px;
+}
+
+img.mcheck-badge {
+  height: 4em;
+}
+
+.game-box {
+  display: inline-block;
+  width: 65px;
+  height: 50px;
+  background: url("../../assets/icon/create-closed.png") center center no-repeat;
+  background-origin: border-box;
+  background-size: contain;
+
+  &.open {
+    background: url("../../assets/icon/create-open.png") center center no-repeat;
+    background-origin: border-box;
+    background-size: contain;
+  }
+
+  &.sapling {
+    background: url("../../assets/items/tree-0.png") center center no-repeat;
+    background-origin: border-box;
+    background-size: contain;
+  }
+
+  &.little-fish {
+    background: url("../../assets/items/fish-0.png") center center no-repeat;
+    background-origin: border-box;
+    background-size: contain;
+  }
+
+  &.seedling {
+    background: url("../../assets/items/wheat-0.png") center center no-repeat;
+    background-origin: border-box;
+    background-size: contain;
+  }
+
+  &.calf {
+    background: url("../../assets/items/cow-0.png") center center no-repeat;
+    background-origin: border-box;
+    background-size: contain;
+  }
+
+
+  ion-button {
+    position: absolute;
+    bottom: 1em;
+    height: 1.2em;
+  }
 }

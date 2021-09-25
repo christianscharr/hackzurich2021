@@ -1,6 +1,6 @@
-import { CarbonFootprintDto } from "./carbon-footprint-dto";
-import { AnimalWelfareDto } from "./animal-welfare-dto";
-import { ObjectType } from "../schemas/object.schema";
+import { CarbonFootprintDto } from './carbon-footprint-dto';
+import { AnimalWelfareDto } from './animal-welfare-dto';
+import { ObjectType } from './objecttype';
 
 export enum MCheckType {
   CARBON_FOOTPRINT = 'CARBON_FOOTPRINT',
