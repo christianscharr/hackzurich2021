@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Controller, Get, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { AzureKeyCredential, FormRecognizerClient } from "@azure/ai-form-recognizer";
 import { Credentials } from "../credentials";
 import { ProductCategory, ProductDto } from "../dtos/product-dto";
@@ -11,6 +11,8 @@ import { CarbonFootprintType } from "../dtos/carbon-footprint-dto";
 import * as path from "path";
 import * as fs from "fs";
 import { FileInterceptor } from "@nestjs/platform-express";
+import { User, UserDocument } from "../schemas/user.schema";
+import { ObjectType } from "../schemas/object.schema";
 
 @Controller('receipts')
 export class ReceiptsController {
@@ -23,7 +25,8 @@ export class ReceiptsController {
 
   private client: FormRecognizerClient;
 
-  constructor(@InjectModel(Product.name) private productModel: Model<ProductDocument>) {
+  constructor(@InjectModel(Product.name) private productModel: Model<ProductDocument>,
+              @InjectModel(User.name) private userModel: Model<UserDocument>) {
     this.client = new FormRecognizerClient(Credentials.azureFormRecognitionEndpoint, new AzureKeyCredential(Credentials.azureApiKey));
   }
 
@@ -48,8 +51,17 @@ export class ReceiptsController {
       products.push(product);
     }
 
+    let winnings = 0;
+
+    for (let product of products) {
+      const hasWon = await this.rollTheDice(product);
+      product.hasWon = hasWon;
+      winnings++;
+    }
+
     return {
-      products
+      products,
+      winnings,
     };
   }
 
@@ -69,7 +81,8 @@ export class ReceiptsController {
     }
 
     return {
-      products
+      products,
+      winnings: 0
     };
   }
 
@@ -220,5 +233,68 @@ export class ReceiptsController {
     }
 
     return ProductCategory.UNKNOWN;
+  }
+
+  private async rollTheDice(product: ProductDto): Promise<ObjectType> {
+    let scoreSum = 0;
+
+    if (product.carbonFootprint) {
+      for (let carbonData of product.carbonFootprint.data) {
+        scoreSum += carbonData.rating;
+      }
+    }
+
+    if (product.animalWelfare) {
+      scoreSum += product.animalWelfare.rating;
+    }
+
+    const likelihood = 0.1 * scoreSum;
+    const winner = [];
+
+    for (let i = 0; i <= 100*likelihood; i++) {
+      winner.push(i);
+    }
+
+    const randomNumber = Math.floor(Math.random() * 101) ;
+
+    if (winner.indexOf(randomNumber) === -1) {
+      return null;
+    }
+
+    let objectType: ObjectType = null;
+
+    switch (product.category) {
+      case ProductCategory.BAKERY:
+      case ProductCategory.CHIPS:
+      case ProductCategory.PASTA:
+      case ProductCategory.CEREALS:
+        objectType = ObjectType.WHEAT;
+        break;
+      case ProductCategory.FISH:
+        objectType = ObjectType.FISH;
+        break;
+      case ProductCategory.MEAT:
+      case ProductCategory.EGGS:
+      case ProductCategory.MILK:
+        objectType = ObjectType.MEAT;
+        break;
+      case ProductCategory.VEGETABLES:
+      case ProductCategory.FRUITS:
+        objectType = ObjectType.TREE;
+        break;
+      default:
+        objectType = null
+    }
+
+    if (objectType === null) {
+      return null;
+    }
+
+    const user = await this.userModel.findOne().exec();
+    user.inventory.push(objectType);
+
+    await user.save();
+
+    return objectType;
   }
 }

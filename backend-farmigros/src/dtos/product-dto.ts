@@ -1,5 +1,6 @@
 import { CarbonFootprintDto } from "./carbon-footprint-dto";
 import { AnimalWelfareDto } from "./animal-welfare-dto";
+import { ObjectType } from "../schemas/object.schema";
 
 export enum MCheckType {
   CARBON_FOOTPRINT = 'CARBON_FOOTPRINT',
@@ -28,4 +29,5 @@ export interface ProductDto {
   category: ProductCategory;
   carbonFootprint?: CarbonFootprintDto;
   animalWelfare?: AnimalWelfareDto;
+  hasWon?: ObjectType;
 }

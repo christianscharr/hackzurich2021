@@ -38,7 +38,7 @@ export class GridComponent implements AfterViewInit {
           this.gridItems.push( remote || {x, y});
         }
       }
-    })
+    });
   }
 
   async ngAfterViewInit() {
