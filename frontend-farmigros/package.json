@@ -8,6 +8,7 @@
     "start": "ng serve",
     "build": "ng build",
     "copyios": "ng build && ionic capacitor copy ios",
+    "runios": "ionic capacitor run ios -l --external",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
-import {Item} from "../items/Item";
-import {Category} from "../items/Category";
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Item} from "../item/Item";
 
 @Component({
   selector: 'app-slide-inventory',
@@ -8,25 +7,28 @@ import {Category} from "../items/Category";
   styleUrls: ['./slide-inventory.component.scss'],
 })
 export class SlideInventoryComponent {
+  @Input() selectedItem;
+  @Output() select = new EventEmitter<Item | null>();
+
+
   isOpen: boolean = false;
-  selectedItem: Item = null;
-  itemsAvailable: Category[] = [
-    {label: 'Plants', items: [{id: 1, type: 'tree', level: 1}]}
+  itemsAvailable: Item[] = [
+    {id: 1, type: 'tree', level: 1},
   ];
 
   setSelectedItem(id: number): void {
-    for (let category of this.itemsAvailable) {
-      let itemTemp = category.items.find((item) => item.id === id);
-      if (itemTemp !== undefined) {
-        this.selectedItem = itemTemp;
-        break;
-      }
-    }
-    console.log(this.selectedItem)
-    this.toggleOpen()
+    this.select.emit(this.itemsAvailable.find((item) => item.id === id));
+    this.toggleOpen();
+  }
+
+  deleteSelectedItem() {
+    this.select.emit(null);
   }
 
   toggleOpen() {
     this.isOpen = !this.isOpen;
+    if(!this.isOpen) {
+      // this.select.emit(null);
+    }
   }
 }

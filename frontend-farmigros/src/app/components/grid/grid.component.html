@@ -7,7 +7,8 @@
     [plant]="item.plant"
     [level]="item.level"
     [zoomLevel]="zoomLevel"
+    (clicked)="onGridClick($event)"
   ></app-grid-item>
 </ion-content>
-<app-slide-inventory></app-slide-inventory>
+<app-slide-inventory [selectedItem]="selectedItem" (select)="onSelectItem($event)"></app-slide-inventory>
 

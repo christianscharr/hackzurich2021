@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import {Component, OnInit, Input, ViewChild, EventEmitter, Output} from '@angular/core';
 import {getItemSizeByZoomLevel} from '../../helpers/helpers';
 
 @Component({
@@ -12,6 +12,7 @@ export class GridItemComponent implements OnInit {
   @Input() plant: string;
   @Input() level: number | string;
   @Input() zoomLevel: number | string;
+  @Output() clicked = new EventEmitter<any>();
 
   get size() {
     return getItemSizeByZoomLevel(this.zoomLevel);
@@ -42,7 +43,7 @@ export class GridItemComponent implements OnInit {
   }
 
   onClick(event) {
-    console.log('test', event);
+    this.clicked.emit({x: this.positionX, y: this.positionY, event: 'sow'});
   }
 
 }
