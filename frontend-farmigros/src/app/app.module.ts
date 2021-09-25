@@ -14,12 +14,14 @@ import {CameraButtonComponent} from "./components/camera-button/camera-button.co
 import {TutorialButtonComponent} from "./components/tutorial-button/tutorial-button.component";
 import {TutorialComponent} from "./components/tutorial/tutorial.component";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
+import { Vibration } from '@ionic-native/vibration/ngx';
+
 
 @NgModule({
     declarations: [AppComponent, GridComponent, GridItemComponent, SlideInventoryComponent, CameraButtonComponent, TutorialButtonComponent, TutorialComponent],
   entryComponents: [],
     imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, HttpClientModule],
-  providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy}],
+  providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy}, Vibration],
   bootstrap: [AppComponent],
   exports: [
     GridComponent, GridItemComponent

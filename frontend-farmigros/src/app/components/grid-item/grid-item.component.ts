@@ -1,6 +1,7 @@
 import {Component, OnInit, Input, ViewChild, EventEmitter, Output, ElementRef} from '@angular/core';
 import {getItemSizeByZoomLevel} from '../../helpers/helpers';
 import {GestureController} from '@ionic/angular';
+import { Vibration } from '@ionic-native/vibration/ngx';
 
 @Component({
   selector: 'app-grid-item',
@@ -11,6 +12,7 @@ export class GridItemComponent implements OnInit {
   @Input() positionX: number;
   @Input() positionY: number;
   @Input() moveOperationOngoing: boolean;
+  @Input() seadOperationOngoing: boolean;
   @Input() plant: string;
   @Input() level: number | string;
   @Input() zoomLevel: number | string;
@@ -42,6 +44,7 @@ export class GridItemComponent implements OnInit {
   constructor(
     private el: ElementRef,
     private gestureCtrl: GestureController,
+    private vibration: Vibration,
   ) {}
 
   ngOnInit() {
@@ -63,8 +66,12 @@ export class GridItemComponent implements OnInit {
   }
 
   onPress() {
-    console.log('press');
-    this.editCallback = setTimeout(() => this.startMoving.emit({x: this.positionX, y: this.positionY, plant: this.plant, level: this.level}), 1000);
+    if(this.plant) {
+      this.editCallback = setTimeout(() => {
+        this.vibration.vibrate(200);
+        this.startMoving.emit({x: this.positionX, y: this.positionY, plant: this.plant, level: this.level})
+      }, 1000);
+    }
   }
 
   onMove(move) {
@@ -77,6 +84,8 @@ export class GridItemComponent implements OnInit {
     if(this.plant) {
       return;
     }
+
+    console.log({x: this.positionX, y: this.positionY, event: this.moveOperationOngoing ? 'move' : 'sow'});
 
     this.clicked.emit({x: this.positionX, y: this.positionY, event: this.moveOperationOngoing ? 'move' : 'sow'});
   }
