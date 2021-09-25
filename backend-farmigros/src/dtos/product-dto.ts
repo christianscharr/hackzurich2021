@@ -22,7 +22,7 @@ export enum ProductCategory {
 export interface ProductDto {
   id: number;
   name: string;
-  description?: string;
+  description: string;
   receipt_test: string;
   category: ProductCategory;
   carbonFootprint?: CarbonFootprintDto;

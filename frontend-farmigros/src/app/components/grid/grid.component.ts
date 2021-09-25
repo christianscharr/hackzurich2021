@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Gesture, GestureController, IonContent} from '@ionic/angular';
 import {getItemSizeByZoomLevel} from '../../helpers/helpers';
 import {Item} from '../item/Item';
@@ -12,6 +12,8 @@ export class GridComponent implements AfterViewInit, OnInit {
 
   zoomLevel = 5;
   selectedItem: Item = null;
+  action: any; //not stacking actions
+
 
 
   gridItems = [
@@ -161,38 +163,46 @@ export class GridComponent implements AfterViewInit, OnInit {
     {x: 11, y: 11},
   ];
 
+  private longPressActive = false;
+
   private gesture: Gesture;
   @ViewChild(IonContent, { static: false }) content: IonContent;
 
-
-
-  constructor(private cdr: ChangeDetectorRef) { }
+  constructor(
+    private el: ElementRef,
+    private gestureCtrl: GestureController,
+  ) {}
 
   ngOnInit() {
-
+    const gesture = this.gestureCtrl.create({
+      el: this.el.nativeElement,
+      threshold: 0,
+      gestureName: 'long-press',
+      onStart: ev => {
+        this.longPressActive = true;
+        this.longPressAction();
+      },
+      onEnd: ev => {
+        this.longPressActive = false;
+      }
+    });
+    gesture.enable(true);
   }
+
+
 
   async ngAfterViewInit() {
     const center = 12 * getItemSizeByZoomLevel(this.zoomLevel) * 0.5;
     requestAnimationFrame(async () =>   await this.content.scrollToPoint(center, center, 1000));
 
+
   }
 
-  /*
-   const element = this.$refs.categories as HTMLElement;
-    const elementWidth = element.clientWidth;
-    const contentWidth = Array
-      .from(element.children)
-      .map((child) => {
-        const childWith = child.clientWidth;
-        const marginLeft = parseInt(window.getComputedStyle(child).marginLeft, 10);
-        return (childWith) + marginLeft;
-      }).reduce((sum, width) => sum + width, 0);
 
-    if (contentWidth > elementWidth) {
-      element.scrollLeft = ((contentWidth - elementWidth) / 2) + parseInt(window.getComputedStyle(element).paddingLeft, 10);
-    }
-   */
+
+  onTouchStart($event) {
+    console.log($event);
+  }
 
   onMove(detail): void {
     console.log('moved', detail);
@@ -221,9 +231,6 @@ export class GridComponent implements AfterViewInit, OnInit {
 
       }) as [];
     }
-
-    this.cdr.detectChanges();
-
   }
 
   onSelectItem(item) {
@@ -231,5 +238,18 @@ export class GridComponent implements AfterViewInit, OnInit {
   }
 
 
-
+  private longPressAction() {
+    console.log('hallo');
+    /*if (this.action) {
+      clearInterval(this.action);
+    }
+    this.action = setTimeout(() => {
+      this.zone.run(() => {
+        if (this.longPressActive === true) {
+          this.longPressActive = false;
+          this.press.emit();
+        }
+      });
+    }, this.delay);*/
+  }
 }
