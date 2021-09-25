@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Camera, CameraResultType} from '@capacitor/camera';
 import {HttpClient} from '@angular/common/http';
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -10,11 +11,15 @@ import {HttpClient} from '@angular/common/http';
 })
 export class CameraPagePage implements OnInit {
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private router: Router) {
   }
 
   async ngOnInit() {
-    await this.takePicture()
+    try {
+      await this.takePicture()
+    } finally {
+      await this.router.navigateByUrl('');
+    }
   }
 
   async takePicture() {
