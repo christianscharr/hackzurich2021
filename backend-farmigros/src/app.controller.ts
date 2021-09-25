@@ -26,7 +26,15 @@ export class AppController {
 
     @Get('/grid-objects')
     async getFields(): Promise<GridObject[]> {
-        return (await this.userModel.findOne().exec()).gridObjects;
+        let gridObjects = (await this.userModel.findOne().exec()).gridObjects;
+        for (let gridObject of gridObjects) {
+            gridObject.addedAt = this.getStatus(gridObject.addedAt);
+        }
+        return gridObjects;
+    }
+
+    getStatus(timestamp: number): number {
+        return Math.min(Math.ceil((Date.now() - timestamp) / (1000*60*60*24)), 5);
     }
 
     @Get('/inventory')

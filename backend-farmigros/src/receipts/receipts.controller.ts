@@ -32,9 +32,10 @@ export class ReceiptsController {
     dest: ReceiptsController.UPLOAD_DIR
   }))
   async uploadFile(@UploadedFile() file: Express.Multer.File): Promise<ReceiptResponse> {
-    console.log(`[POST /receipts/upload] Received file "${file.originalname}" with size ${file.size} and saved it to "${path.join(file.destination, file.filename)}"`);
+    const uploadedFile = path.join(file.destination, file.filename);
+    console.log(`[POST /receipts/upload] Received file "${file.originalname}" with size ${file.size} and saved it to "${uploadedFile}"`);
 
-    const receiptNames = await this.mockRecognizeReceipt();
+    const receiptNames = await this.recognizeReceipt(uploadedFile);
     const products: ProductDto[] = [];
 
     for (let receiptName of receiptNames) {
@@ -91,8 +92,47 @@ export class ReceiptsController {
     return products;
   }
 
-  private async recognizeReceipt(): Promise<string[]> {
-    return [];
+  private async recognizeReceipt(filename: string): Promise<string[]> {
+    const readStream = fs.createReadStream(filename);
+    const poller = await this.client.beginRecognizeReceipts(readStream, {
+      onProgress: (state) => { console.log(`Azure Status: ${state.status}`); }
+    });
+
+    const receipts = await poller.pollUntilDone();
+
+    if (!receipts || receipts.length <= 0) {
+      throw new Error("Expecting at lease one receipt in analysis result");
+    }
+
+    const receipt = receipts[0];
+    const products = [];
+    const itemsField = receipt.fields["Items"];
+
+    if (itemsField.valueType !== "array") {
+      return products;
+    }
+
+    for (const itemField of itemsField.value || []) {
+      if (itemField.valueType !== "object") {
+        continue;
+      }
+
+      const itemNameField = itemField.value["Name"];
+
+      if (!itemNameField) {
+        continue;
+      }
+
+      if (itemNameField.valueType === "string") {
+        if (ReceiptsController.RECEIPT_BREAKWORDS.includes(itemNameField.value)) {
+          break;
+        }
+
+        products.push(itemNameField.value);
+      }
+    }
+
+    return products;
   }
 
   private async mapReceiptNameToProdcut(receiptName: string): Promise<ProductDto> {

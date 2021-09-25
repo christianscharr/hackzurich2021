@@ -23,6 +23,10 @@ Content-Type: application/json
 }
 
 ###
+GET localhost:3000/grid-objects
+
+
+###
 
 PUT localhost:3000/sell
 Content-Type: application/json
