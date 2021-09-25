@@ -1,1 +1,14 @@
 POST localhost:3000/testdata
+
+###
+
+PUT localhost:3000/put
+Content-Type: application/json
+
+{
+  "positionX": 2,
+  "positionY": 2,
+  "objectType": 0
+}
+
+

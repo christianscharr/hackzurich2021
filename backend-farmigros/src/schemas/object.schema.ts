@@ -2,16 +2,26 @@ import {Prop, Schema} from '@nestjs/mongoose';
 
 @Schema()
 export class GridObject {
+    constructor(positionX: number, positionY: number, addedAt: number, objectType: ObjectType) {
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.addedAt = addedAt;
+        this.objectType = objectType;
+    }
+
     @Prop()
         // x and y
-    position: [number, number];
+    positionX: number;
+
+    @Prop()
+    positionY: number;
 
     @Prop()
         // Timestamp to determine age
-    addedAt: Date;
+    addedAt: number;
 
     @Prop()
-    type: ObjectType;
+    objectType: ObjectType;
 
 }
 
