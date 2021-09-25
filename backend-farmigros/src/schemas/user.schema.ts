@@ -1,5 +1,8 @@
-import {Prop, Schema} from '@nestjs/mongoose';
-import {Field} from './field.schema';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
+import {Field} from "./field.schema";
+
+export type UserDocument = User & Document;
 
 @Schema()
 export class User {
@@ -10,7 +13,9 @@ export class User {
 
     @Prop()
     fields: Field[];
-    @Prop()
-    // TODO
-    inventory: any
+    // @Prop()
+    // // TODO
+    // inventory: any
 }
+
+export const UserSchema = SchemaFactory.createForClass(User);
