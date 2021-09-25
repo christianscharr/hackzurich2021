@@ -12,13 +12,14 @@
     <ion-icon name="close-outline" size="large" class="cancel-selection-button" (click)="selectedItem = null"></ion-icon>
   </div>
 
-
-  <div class="item-grid">
-    <div *ngFor="let item of itemsAvailable"
-         class="grid-item"
-         [ngStyle]="{backgroundImage:  'url(../../../assets/items/'+ item.type +'-' + item.level +'.png)'}"
-         (click)="setSelectedItem(item.id)"
-    >
-    </div>
+  <div class="categories-container">
+    <div class="item-grid" *ngFor="let category of itemsAvailable">
+      <div *ngFor="let item of category.items"
+           class="grid-item"
+           [ngStyle]="{backgroundImage:  'url(../../../assets/items/'+ item.type +'-' + item.level +'.png)'}"
+           (click)="setSelectedItem(item.id)"
+      >
+      </div>
+  </div>
   </div>
 </div>
