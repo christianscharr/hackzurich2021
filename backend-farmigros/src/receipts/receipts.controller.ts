@@ -6,6 +6,10 @@ import { ProductCategory, ProductDto } from "../dtos/product-dto";
 import { AuzreReceiptMock } from "./azure-ReceiptResult-mock";
 import { ReceiptResponse } from "../dtos/receipt-response";
 import { CarbonFootprintType } from "../dtos/carbon-footprint-dto";
+import { InjectModel } from "@nestjs/mongoose";
+import { User, UserDocument } from "../schemas/user.schema";
+import { Model } from "mongoose";
+import { Product, ProductDocument } from "../schemas/product.schema";
 
 @Controller('receipts')
 export class ReceiptsController {
@@ -17,7 +21,7 @@ export class ReceiptsController {
 
   private client: FormRecognizerClient;
 
-  constructor() {
+  constructor(@InjectModel(Product.name) private productModel: Model<ProductDocument>) {
     this.client = new FormRecognizerClient(Credentials.azureFormRecognitionEndpoint, new AzureKeyCredential(Credentials.azureApiKey));
   }
 
@@ -26,7 +30,12 @@ export class ReceiptsController {
   async uploadFile(@UploadedFile() file: Express.Multer.File): Promise<ReceiptResponse> {
     console.log(`[POST /receipts/upload] Received file ${file.originalname} (size: ${file.size}, type: ${file.mimetype})`);
     const receiptNames = await this.mockRecognizeReceipt();
-    const products = receiptNames.map(receiptName => this.mapReceiptNameToProdcut(receiptName));
+    const products: ProductDto[] = [];
+
+    for (let receiptName in receiptNames) {
+      const product = await this.mapReceiptNameToProdcut(receiptName);
+      products.push(product);
+    }
 
     return {
       products
@@ -36,7 +45,12 @@ export class ReceiptsController {
   @Get('mock')
   async getMockReceipt(): Promise<ReceiptResponse> {
     const receiptNames = await this.mockRecognizeReceipt();
-    const products = receiptNames.map(receiptName => this.mapReceiptNameToProdcut(receiptName));
+    const products: ProductDto[] = [];
+
+    for (let receiptName of receiptNames) {
+      const product = await this.mapReceiptNameToProdcut(receiptName);
+      products.push(product);
+    }
 
     return {
       products
@@ -66,21 +80,21 @@ export class ReceiptsController {
     return [];
   }
 
-  private mapReceiptNameToProdcut(receiptName: string): ProductDto {
-    return {
-      name: receiptName,
-      receipt_test: receiptName,
-      id: 123456789,
-      description: receiptName,
-      category: ProductCategory.FRUITS,
-      carbonFootprint: {
-        image: 'https://',
-        data: [{
-          type: CarbonFootprintType.GROUND_AND_SEA_CARGO,
-          kgCo2: 100,
-          rating: 3
-        }]
-      }
+  private async mapReceiptNameToProdcut(receiptName: string): Promise<ProductDto> {
+    const product = await this.productModel.findOne({ receipt_text: receiptName }).exec();
+
+    if (!product) {
+      console.error(`Failed to query product with receipt name "${receiptName}"`);
+      return null;
     }
+
+    const productDto: ProductDto = {
+      name: product.name.toString(),
+      receipt_test: product.receipt_text.toString(),
+      id: product.id,
+      category: ProductCategory.FRUITS,
+    };
+
+    return productDto;
   }
 }
