@@ -1,4 +1,4 @@
-<div class="grid" #grid >
+<ion-content [scrollX]="true" [scrollY]="true" class="grid" (pinch)="onPinch($event)">
   <input class="zoom-slider" type="range" min="1" max="10" [(ngModel)]="zoomLevel"/>
   <app-grid-item
     *ngFor="let item of gridItems, let x = index"
@@ -7,5 +7,5 @@
     [level]="item.level"
     [zoomLevel]="zoomLevel"
   ></app-grid-item>
-</div>
+</ion-content>
 <app-slide-inventory></app-slide-inventory>

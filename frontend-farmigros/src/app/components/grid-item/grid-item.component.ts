@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import {getItemSizeByZoomLevel} from '../../helpers/helpers';
 
 @Component({
   selector: 'app-grid-item',
@@ -12,6 +13,9 @@ export class GridItemComponent implements OnInit {
   @Input() level: number | string;
   @Input() zoomLevel: number | string;
 
+  get size() {
+    return getItemSizeByZoomLevel(this.zoomLevel);
+  }
 
   sizes = {
     1: 64,
@@ -34,7 +38,7 @@ export class GridItemComponent implements OnInit {
   }
 
   ngOnChange(change) {
-    console.log(change)
+    console.log(change);
   }
 
   onClick(event) {
