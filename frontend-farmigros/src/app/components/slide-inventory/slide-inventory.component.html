@@ -1,0 +1,11 @@
+<div class="slide-menu" [ngClass]="{'is-open': isOpen}">
+  <a class="open-button" (click)="isOpen = !isOpen">
+    <ion-icon [name]="isOpen ? 'chevron-down' : 'chevron-up'" size="large"></ion-icon>
+  </a>
+
+  <ion-grid>
+    <ion-row *ngFor="let i of [1,2,3,4,5,6,7,8]">
+      <ion-col *ngFor="let j of [1,2,3,4]"></ion-col>
+    </ion-row>
+  </ion-grid>
+</div>

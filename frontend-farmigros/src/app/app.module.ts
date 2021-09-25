@@ -8,9 +8,10 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import {GridComponent} from './components/grid/grid.component';
 import {GridItemComponent} from './components/grid-item/grid-item.component';
+import {SlideInventoryComponent} from "./components/slide-inventory/slide-inventory.component";
 
 @NgModule({
-  declarations: [AppComponent, GridComponent, GridItemComponent],
+  declarations: [AppComponent, GridComponent, GridItemComponent, SlideInventoryComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
   providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy}],

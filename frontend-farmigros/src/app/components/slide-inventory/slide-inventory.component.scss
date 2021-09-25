@@ -1,0 +1,52 @@
+@import '../../../global';
+
+.slide-menu {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  right: 50%;
+  margin-left: -15vw;
+  margin-right: -15vw;
+  width: 30vw;
+  height: 60vh;
+  background-color: $colorOrange;
+  justify-content: space-around;
+  transform: translateY(55vh);
+  transition: 400ms;
+  border-radius: 20px;
+  text-align: center;
+
+  &.is-open {
+    transform: translateY(0);
+    width: 100vw;
+    left: 0;
+    right: auto;
+    margin: 0;
+    border-radius: 10px;
+
+    ion-grid {
+      display: inherit;
+    }
+  }
+}
+
+.open-button {
+  color: white;
+  margin: auto;
+}
+
+ion-grid {
+  overflow: scroll;
+  display: none;
+  flex-grow: 0;
+}
+
+ion-row, ion-col {
+  height: 64px;
+}
+
+ion-col {
+  border: 2px dashed $colorGrayTransparent;
+  border-collapse: collapse;
+}
+

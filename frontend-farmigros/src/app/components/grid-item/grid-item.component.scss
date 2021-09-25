@@ -1,3 +1,4 @@
+@import "../../../global";
 
 .grid-item {
   position: absolute;
@@ -6,5 +7,5 @@
   width: 64px;
   background-image: url("../../../assets/landscape/forest-floor-green.png");
   background-size: cover;
-  border: 2px dashed rgba(194, 214, 198, 0.3)
+  border: 2px dashed $colorGrayTransparent;
 }
