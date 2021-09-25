@@ -11,9 +11,6 @@ export class SlideInventoryComponent {
   selectedItem: Item = null;
   itemsAvailable: Item[] = [
     {id: 1, type: 'tree', level: 1},
-    {id: 2, type: 'tree', level: 2},
-    {id: 3, type: 'tree', level: 3},
-    {id: 4, type: 'tree', level: 4}
   ];
 
   setSelectedItem(id: number): void {

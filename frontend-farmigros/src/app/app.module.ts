@@ -10,9 +10,10 @@ import {GridComponent} from './components/grid/grid.component';
 import {GridItemComponent} from './components/grid-item/grid-item.component';
 import {SlideInventoryComponent} from "./components/slide-inventory/slide-inventory.component";
 import {FormsModule} from '@angular/forms';
+import {CameraButtonComponent} from "./components/camera-button/camera-button.component";
 
 @NgModule({
-  declarations: [AppComponent, GridComponent, GridItemComponent, SlideInventoryComponent],
+    declarations: [AppComponent, GridComponent, GridItemComponent, SlideInventoryComponent, CameraButtonComponent],
   entryComponents: [],
     imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule],
   providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy}],
