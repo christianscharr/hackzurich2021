@@ -72,7 +72,7 @@ export class ReceiptPagePage {
     formData.append('file', photoBlob);
 
     try {
-      const response = await fetch(`${environment.backendUrl}upload`, {
+      const response = await fetch(`${environment.backendUrl}receipts/upload`, {
         method: 'POST',
         body: formData,
       });
