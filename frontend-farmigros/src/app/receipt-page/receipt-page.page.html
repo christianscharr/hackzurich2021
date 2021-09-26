@@ -1,5 +1,10 @@
 <ion-header>
   <ion-toolbar color="migros">
+    <ion-buttons slot="start">
+      <ion-button shape="round" (click)="navigateBack()">
+        <ion-icon slot="icon-only" name="chevron-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>Capture your Migros Receipt</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -23,7 +28,25 @@
 <ion-content *ngIf="!isProcessing && receiptContents">
   <ion-card>
     <ion-card-content>
-
+      <ion-list>
+        <ion-item *ngFor="let product of receiptContents; let i = index">
+          <ion-thumbnail slot="start">
+            <div class="product-thumbnail" [ngStyle]="{ 'background-image': 'url(' + product.image + ')' }"></div>
+          </ion-thumbnail>
+          <ion-label class="product-row">
+            <img class="mcheck-badge" *ngIf="product.animalWelfare" [src]="product.animalWelfare.image" />
+            <img class="mcheck-badge" *ngIf="product.carbonFootprint" [src]="product.carbonFootprint.image" />
+            <div class="game-box" *ngIf="boxOpened.indexOf(i) === -1" (click)="openBox(i)">
+              <ion-button size="small" color="migros" shape="round">Open</ion-button>
+            </div>
+            <div class="game-box open" *ngIf="boxOpened.indexOf(i) > -1 && !product.hasWon"></div>
+            <div class="game-box sapling" *ngIf="boxOpened.indexOf(i) > -1 && product.hasWon === objectType.TREE"></div>
+            <div class="game-box calf" *ngIf="boxOpened.indexOf(i) > -1 && product.hasWon === objectType.MEAT"></div>
+            <div class="game-box little-fish" *ngIf="boxOpened.indexOf(i) > -1 && product.hasWon === objectType.FISH"></div>
+            <div class="game-box seedling" *ngIf="boxOpened.indexOf(i) > -1 && product.hasWon === objectType.WHEAT"></div>
+          </ion-label>
+        </ion-item>
+      </ion-list>
     </ion-card-content>
   </ion-card>
 </ion-content>

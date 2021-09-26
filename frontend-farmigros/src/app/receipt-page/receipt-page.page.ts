@@ -3,6 +3,10 @@ import {Camera, CameraResultType, CameraSource, Photo} from '@capacitor/camera';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {LoadingController} from '@ionic/angular';
+import {ProductDto} from './dto/product-dto';
+import {ReceiptResponse} from './dto/receipt-response';
+import {ObjectType} from './dto/objecttype';
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-receipt-page',
@@ -10,13 +14,19 @@ import {LoadingController} from '@ionic/angular';
   styleUrls: ['./receipt-page.page.scss'],
 })
 export class ReceiptPagePage {
-  receiptContents: [] = null;
+  receiptContents: ProductDto[] = null;
   isProcessing = false;
   loadingElement: HTMLIonLoadingElement;
+  boxOpened = new Array<number>();
+  objectType = ObjectType;
 
   constructor(@Inject(HttpClient) private httpClient: HttpClient,
               @Inject(Router) private router: Router,
               @Inject(LoadingController) public loadingController: LoadingController) {
+  }
+
+  async navigateBack(): Promise<void> {
+    await this.router.navigateByUrl('home');
   }
 
   async presentProcessing(): Promise<void> {
@@ -62,7 +72,7 @@ export class ReceiptPagePage {
     formData.append('file', photoBlob);
 
     try {
-      const response = await fetch('http://127.0.0.1:3000/receipts/upload', {
+      const response = await fetch(`${environment.backendUrl}upload`, {
         method: 'POST',
         body: formData,
       });
@@ -77,12 +87,17 @@ export class ReceiptPagePage {
 
       this.isProcessing = false;
       await this.loadingElement.dismiss();
-      this.receiptContents = [];
-      const resJson = await response.json();
+      const receiptResponse: ReceiptResponse = await response.json();
+      this.receiptContents = receiptResponse.products;
     } catch (err) {
+      console.error(err);
       this.isProcessing = false;
       await this.loadingElement.dismiss();
       await this.router.navigateByUrl('');
     }
   };
+
+  openBox(idx: number): void {
+    this.boxOpened.push(idx);
+  }
 }

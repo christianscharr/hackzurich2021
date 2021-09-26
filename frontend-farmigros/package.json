@@ -6,8 +6,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start-prod": "ng serve --prod",
     "build": "ng build",
     "copyios": "ng build && ionic capacitor copy ios",
+    "copyios-prod": "ng build --prod && ionic capacitor copy ios",
     "runios": "ionic capacitor run ios -l --external",
     "test": "ng test",
     "lint": "ng lint",

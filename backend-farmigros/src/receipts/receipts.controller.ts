@@ -59,7 +59,7 @@ export class ReceiptsController {
       if (hasWon === null) {
         continue;
       }
-      
+
       product.hasWon = hasWon;
       winnings++;
     }
@@ -176,10 +176,14 @@ export class ReceiptsController {
       productDto.category = this.determineCategory(product.categories);
     }
 
+    if (product.image) {
+      productDto.image = product.image.small?product.image.small:product.image.original;
+    }
+
     if (product.m_check2 && product.m_check2.carbon_footprint
       && (product.m_check2.carbon_footprint.air_cargo || product.m_check2.carbon_footprint.ground_and_sea_cargo)) {
       productDto.carbonFootprint = {
-        image: product.m_check2.carbon_footprint.image.original,
+        image: product.m_check2.carbon_footprint.image.small?product.m_check2.carbon_footprint.image.small:product.m_check2.carbon_footprint.image.original,
         data: []
       };
 
@@ -202,7 +206,7 @@ export class ReceiptsController {
 
     if (product.m_check2 && product.m_check2.animal_welfare) {
       productDto.animalWelfare = {
-        image: product.m_check2.animal_welfare.image.original,
+        image: product.m_check2.animal_welfare.image.small?product.m_check2.animal_welfare.image.small:product.m_check2.animal_welfare.image.original,
         rating: product.m_check2.animal_welfare.rating,
         label: product.m_check2.animal_welfare.label,
       };

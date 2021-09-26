@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {map} from "rxjs/operators";
 import {RecievedItem} from "../components/item/RecievedItem";
 import {ObjectType} from "../models/ObjectType";
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,7 @@ export class LeaderService {
   ]
 
   leaderBoard() {
-    return this.http.get('http://localhost:3000/leaderboard').pipe(
+    return this.http.get(environment.backendUrl + 'leaderboard').pipe(
       map(points => ({name: 'Albert Einstein', points: points || 0})),
       map(me => [me, ...this.competitors].sort((a: {name: string, points: number}, b:{name: string, points: number}) =>  b.points - a.points)),
     );
