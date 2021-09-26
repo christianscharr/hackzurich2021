@@ -5,7 +5,8 @@ import {Router} from '@angular/router';
 import {LoadingController} from '@ionic/angular';
 import {ProductDto} from './dto/product-dto';
 import {ReceiptResponse} from './dto/receipt-response';
-import {ObjectType} from "./dto/objecttype";
+import {ObjectType} from './dto/objecttype';
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-receipt-page',
@@ -71,7 +72,7 @@ export class ReceiptPagePage {
     formData.append('file', photoBlob);
 
     try {
-      const response = await fetch('http://127.0.0.1:3000/receipts/upload', {
+      const response = await fetch(`${environment.backendUrl}upload`, {
         method: 'POST',
         body: formData,
       });
