@@ -1,6 +1,9 @@
-<ion-fab vertical="bottom" horizontal="end" slot="fixed">
-  <ion-fab-button (click)="openTutorial()" color="migros">
-    <ion-icon icon="help-outline"></ion-icon>
-  </ion-fab-button>
-</ion-fab>
-
+<!--<ion-fab vertical="bottom" horizontal="end" slot="fixed">-->
+<!--  <ion-fab-button (click)="openTutorial()" color="migros">-->
+<!--    <ion-icon icon="help-outline"></ion-icon>-->
+<!--  </ion-fab-button>-->
+<!--</ion-fab>-->
+<div class="tutorial-bubble bubble" *ngIf="showTutorialBubble" (click)="closeBubble()">
+  Howdy, it seems you are new here. If you need help, just let me know by tapping on my shoulder. <span class="pseudo-link">Okay, I will do so.</span>
+</div>
+<div class="farmer-tutorial" (click)="openTutorial()"></div>

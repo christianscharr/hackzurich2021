@@ -91,3 +91,18 @@ img.mcheck-badge {
     height: 1.2em;
   }
 }
+
+.farmer-teaser {
+  position: absolute;
+  top: 2%;
+  left: 10%;
+  display: block;
+  width: 75%;
+  height: 300px;
+  background: url("../../assets/farmer.png") center top no-repeat;
+  background-size: contain;
+}
+
+.capture-teaser {
+  margin-top: 30vh;
+}
