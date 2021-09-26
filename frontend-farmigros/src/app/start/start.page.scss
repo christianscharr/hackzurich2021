@@ -7,9 +7,16 @@ button {
   padding-top: 64px;
   text-align: center;
 }
- .master{
+
+.master{
   background-image: url('../../assets/landscape/background.jpg');
   background-size: cover;
+}
+
+ion-card {
+  --background: url("../../assets/landscape/wooden.jpg") center center no-repeat;
+  background-size: cover;
+  --color: #FFFFFF;
 }
 
 
