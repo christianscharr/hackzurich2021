@@ -2,8 +2,5 @@
 	"appId": "io.ionic.starter",
 	"appName": "Farmigros",
 	"webDir": "www",
-	"bundledWebRuntime": false,
-	"server": {
-		"url": "http://10.15.2.101:8101"
-	}
+	"bundledWebRuntime": false
 }
