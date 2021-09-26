@@ -1,8 +1,5 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {Camera, CameraResultType, CameraSource, Photo} from '@capacitor/camera';
-import {HttpClient} from '@angular/common/http';
+import {Component, Inject} from '@angular/core';
 import {Router} from '@angular/router';
-import {LoadingController} from '@ionic/angular';
 import {LeaderService} from '../services/leader.service';
 
 @Component({
@@ -13,14 +10,15 @@ import {LeaderService} from '../services/leader.service';
 export class LeaderBoardPage {
   leaders = [];
 
-  constructor(private leaderService: LeaderService) {
+  constructor(@Inject(LeaderService) private leaderService: LeaderService,
+              @Inject(Router) private router: Router) {
     leaderService.leaderBoard().subscribe(leaders => {
         this.leaders = leaders;
       }
-    )
+    );
   }
 
-
-
-
+  async navigateBack(): Promise<void> {
+    await this.router.navigateByUrl('home');
+  }
 }

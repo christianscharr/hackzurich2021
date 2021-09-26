@@ -24,6 +24,10 @@ export class ReceiptPagePage {
               @Inject(LoadingController) public loadingController: LoadingController) {
   }
 
+  async navigateBack(): Promise<void> {
+    await this.router.navigateByUrl('home');
+  }
+
   async presentProcessing(): Promise<void> {
     this.isProcessing = true;
     this.loadingElement = await this.loadingController.create({
