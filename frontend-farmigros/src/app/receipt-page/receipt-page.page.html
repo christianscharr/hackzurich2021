@@ -1,7 +1,9 @@
 <ion-header>
   <ion-toolbar color="migros">
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-button shape="round" (click)="navigateBack()">
+        <ion-icon slot="icon-only" name="chevron-back"></ion-icon>
+      </ion-button>
     </ion-buttons>
     <ion-title>Capture your Migros Receipt</ion-title>
   </ion-toolbar>
